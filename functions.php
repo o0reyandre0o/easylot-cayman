@@ -3,8 +3,8 @@
  * Easy Lot Cayman — theme functions.
  *
  * Everything the theme needs lives in this file and the templates next to it:
- * there is no build step, no CSS framework CDN and no subdirectories, so the
- * whole theme can be zipped straight from the repository root.
+ * there is no build step and no CSS framework CDN; the only subdirectory is
+ * assets/, which carries the intro video for the floating player.
  *
  * The parts you are most likely to edit are grouped at the top under
  * "SITE DATA" — contact details, developments, videos, FAQs and testimonials.
@@ -16,7 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'EASYLOT_VERSION', '1.0.3' );
+define( 'EASYLOT_VERSION', '1.0.4' );
 
 require_once __DIR__ . '/setup-pages.php';
 
@@ -414,11 +414,11 @@ function easylot_video_by_file( $needle ) {
  * once they press play.
  */
 function easylot_intro_video() {
-	$dir = 'https://easylot.ky/wp-content/uploads/2026/08/';
+	$dir = get_template_directory_uri() . '/assets/';
 	return array(
-		'teaser' => $dir . '21-Easylot-Intro-teaser.mp4',
-		'full'   => $dir . '21-Easylot-Intro-web.mp4',
-		'poster' => $dir . '21-Easylot-Intro-poster.jpg',
+		'teaser' => $dir . 'intro-teaser.mp4',
+		'full'   => $dir . 'intro-full.mp4',
+		'poster' => $dir . 'intro-poster.jpg',
 		'label'  => 'How buying land in Cayman actually works',
 		'eyebrow' => 'Watch: 42 sec',
 	);
