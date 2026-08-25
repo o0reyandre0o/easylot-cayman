@@ -16,7 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'EASYLOT_VERSION', '1.5.0' );
+define( 'EASYLOT_VERSION', '1.5.1' );
 
 require_once get_template_directory() . '/nav.php';
 require_once get_template_directory() . '/site-footer.php';
@@ -1144,8 +1144,64 @@ function easylot_the_crumbs( $trail ) {
  * ========================================================================== */
 
 function easylot_seo_plugin_active() {
-	return defined( 'RANK_MATH_VERSION' ) || defined( 'WPSEO_VERSION' ) || defined( 'AIOSEO_VERSION' );
+	$active = defined( 'RANK_MATH_VERSION' ) || defined( 'WPSEO_VERSION' ) || defined( 'AIOSEO_VERSION' );
+
+	/**
+	 * Let the site force the theme to own its meta tags even with a plugin
+	 * installed. Returning false from this filter hands title, description,
+	 * canonical, robots, Open Graph and Twitter back to the theme.
+	 */
+	return (bool) apply_filters( 'easylot_seo_plugin_active', $active );
 }
+
+/**
+ * Feed the theme's designed Open Graph card to whichever SEO plugin is active.
+ *
+ * Rank Math and friends own the head when they are switched on, and the theme
+ * steps aside — which is how ten designed 1200x630 cards ended up shipped,
+ * deployed, reachable, and referenced by absolutely nothing. These filters put
+ * the right card back in the plugin's own output.
+ *
+ * An image the editor deliberately chose always wins: we only supply ours where
+ * the plugin would otherwise fall back to a site-wide default.
+ */
+function easylot_filter_plugin_og_image( $image = '' ) {
+	$post_id = get_queried_object_id();
+
+	// Rank Math and Yoast both store a deliberately chosen social image in
+	// post meta. If one is set, leave the plugin alone.
+	if ( $post_id ) {
+		foreach ( array( 'rank_math_facebook_image', 'rank_math_twitter_image', '_yoast_wpseo_opengraph-image', '_yoast_wpseo_twitter-image' ) as $key ) {
+			if ( get_post_meta( $post_id, $key, true ) ) {
+				return $image;
+			}
+		}
+	}
+
+	return easylot_og_image();
+}
+
+function easylot_hook_plugin_og() {
+	if ( ! easylot_seo_plugin_active() ) {
+		return;
+	}
+
+	foreach ( array(
+		// Rank Math
+		'rank_math/opengraph/facebook/og_image',
+		'rank_math/opengraph/facebook/og_image_secure_url',
+		'rank_math/opengraph/twitter/twitter_image',
+		// Yoast
+		'wpseo_opengraph_image',
+		'wpseo_twitter_image',
+		// AIOSEO
+		'aioseo_facebook_tags_og_image',
+		'aioseo_twitter_tags_image',
+	) as $hook ) {
+		add_filter( $hook, 'easylot_filter_plugin_og_image', 20 );
+	}
+}
+add_action( 'wp', 'easylot_hook_plugin_og' );
 
 function easylot_current_url() {
 	if ( is_singular() ) {
