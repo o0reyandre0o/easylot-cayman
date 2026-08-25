@@ -14,7 +14,7 @@ $devs = easylot_developments();
 	<div class="wrap site-footer__grid">
 
 		<div>
-			<img class="logo" src="<?php echo esc_url( $c['logo'] ); ?>" alt="<?php echo esc_attr( get_bloginfo( 'name' ) ); ?>" width="140" height="34" loading="lazy">
+			<span class="site-footer__logo"><?php easylot_logo_img( 32 ); ?></span>
 			<p>Land ownership in the Cayman Islands without a bank. We own the lots, we finance them directly, and we walk you through every step.</p>
 			<div class="socials">
 				<a href="<?php echo esc_url( $c['social']['facebook'] ); ?>" target="_blank" rel="noopener" aria-label="Facebook"><?php easylot_the_icon( 'facebook' ); ?></a>

@@ -26,7 +26,7 @@ $devs = easylot_developments();
 	<div class="wrap site-nav__bar">
 
 		<a class="site-nav__logo" href="<?php echo esc_url( home_url( '/' ) ); ?>" aria-label="<?php echo esc_attr( get_bloginfo( 'name' ) ); ?> — home">
-			<img src="<?php echo esc_url( $c['logo'] ); ?>" alt="<?php echo esc_attr( get_bloginfo( 'name' ) ); ?>" width="150" height="38">
+			<?php easylot_logo_img( 34 ); ?>
 		</a>
 
 		<nav class="site-nav__links" aria-label="Primary">
@@ -127,7 +127,7 @@ $devs = easylot_developments();
 <!-- Mobile drawer -->
 <div class="drawer" id="drawer" aria-hidden="true">
 	<div class="drawer__head">
-		<img src="<?php echo esc_url( $c['logo'] ); ?>" alt="<?php echo esc_attr( get_bloginfo( 'name' ) ); ?>" width="130" height="34">
+		<?php easylot_logo_img( 30 ); ?>
 		<span class="burger" id="drawer-close" role="button" tabindex="0" aria-label="Close menu">
 			<?php easylot_the_icon( 'x' ); ?>
 		</span>

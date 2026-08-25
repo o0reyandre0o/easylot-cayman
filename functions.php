@@ -16,7 +16,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'EASYLOT_VERSION', '1.0.1' );
+define( 'EASYLOT_VERSION', '1.0.2' );
+
+require_once __DIR__ . '/setup-pages.php';
 
 /* ==========================================================================
  * 1. Theme setup
@@ -504,6 +506,41 @@ function easylot_testimonials() {
 			'name'  => 'Sheena B.',
 			'where' => 'Bought in Northshore Estates',
 		),
+	);
+}
+
+
+/**
+ * Print the site logo.
+ *
+ * Priority: the custom logo uploaded under Appearance > Customize > Site
+ * Identity (local to whichever domain the theme runs on), then the remote SVG
+ * from easylot.ky. easylot.ky sits behind a WAF that can refuse hotlinked
+ * media, so if the image fails onerror swaps in a typographic mark rather than
+ * leaving broken-image alt text in the nav.
+ *
+ * @param int $height Rendered height in px.
+ */
+function easylot_logo_img( $height = 34 ) {
+	$c        = easylot_contact();
+	$src      = $c['logo'];
+	$logo_id  = (int) get_theme_mod( 'custom_logo' );
+
+	if ( $logo_id ) {
+		$local = wp_get_attachment_image_url( $logo_id, 'full' );
+		if ( $local ) {
+			$src = $local;
+		}
+	}
+
+	$fallback = 'this.outerHTML=&quot;<span class=\&quot;logo-text\&quot;>EASY<em>LOT</em></span>&quot;';
+
+	printf(
+		'<img src="%s" alt="%s" style="height:%dpx" onerror="%s">',
+		esc_url( $src ),
+		esc_attr( get_bloginfo( 'name' ) ),
+		(int) $height,
+		$fallback // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- static attribute above.
 	);
 }
 
