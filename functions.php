@@ -16,7 +16,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'EASYLOT_VERSION', '1.0.8' );
+define( 'EASYLOT_VERSION', '1.1.0' );
+
+require_once get_template_directory() . '/nav.php';
+require_once get_template_directory() . '/site-footer.php';
 
 require_once __DIR__ . '/setup-pages.php';
 

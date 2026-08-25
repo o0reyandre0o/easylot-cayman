@@ -121,6 +121,19 @@ function easylot_find_blueprint_page( $entry ) {
  *
  * @return array{created:array,attached:array,skipped:array}
  */
+/**
+ * Is this page built with Elementor?
+ *
+ * Pages built in Elementor must keep the default template, or WordPress renders
+ * our template instead of their layout.
+ */
+function easylot_is_built_with_elementor( $post_id ) {
+	if ( 'builder' === get_post_meta( $post_id, '_elementor_edit_mode', true ) ) {
+		return true;
+	}
+	return (bool) get_post_meta( $post_id, '_elementor_data', true );
+}
+
 function easylot_provision_pages() {
 
 	$report = array( 'created' => array(), 'attached' => array(), 'skipped' => array() );
@@ -139,7 +152,20 @@ function easylot_provision_pages() {
 			 */
 			$current = get_post_meta( $existing->ID, '_wp_page_template', true );
 
-			if ( '' === $current || 'default' === $current ) {
+			if ( easylot_is_built_with_elementor( $existing->ID ) ) {
+				/*
+				 * Built in Elementor: leave it completely alone. Attaching one
+				 * of our templates would swap the client's Elementor layout for
+				 * our hardcoded one — which is exactly what must not happen to
+				 * the development pages.
+				 */
+				$report['skipped'][] = array(
+					'title'    => get_the_title( $existing ),
+					'url'      => get_permalink( $existing ),
+					'template' => 'Elementor',
+					'wanted'   => $entry['template'],
+				);
+			} elseif ( '' === $current || 'default' === $current ) {
 				update_post_meta( $existing->ID, '_wp_page_template', $entry['template'] );
 				$report['attached'][] = array(
 					'title'    => get_the_title( $existing ),

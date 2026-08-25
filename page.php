@@ -44,7 +44,9 @@ while ( have_posts() ) :
 
 	<article class="section section--paper">
 		<div class="wrap">
-			<div class="entry-content"><?php the_content(); ?></div>
+			<?php /* Elementor lays out its own full-width sections; the narrow
+			         measure this theme applies to prose would squash them. */ ?>
+			<div class="entry-content<?php echo easylot_is_built_with_elementor( get_the_ID() ) ? ' entry-content--full' : ''; ?>"><?php the_content(); ?></div>
 		</div>
 	</article>
 
