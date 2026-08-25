@@ -16,7 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'EASYLOT_VERSION', '1.0.0' );
+define( 'EASYLOT_VERSION', '1.0.1' );
 
 /* ==========================================================================
  * 1. Theme setup

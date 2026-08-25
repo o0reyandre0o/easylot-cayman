@@ -48,7 +48,15 @@ $devs = easylot_developments();
 							</span>
 							<span>
 								<span class="dropitem__t"><?php echo esc_html( $d['name'] ); ?></span>
-								<span class="dropitem__d"><?php echo esc_html( $d['island'] ); ?> — from <?php echo esc_html( $d['from'] ); ?></span>
+								<span class="dropitem__d">
+									<?php echo esc_html( $d['island'] ); ?><?php
+									// Ocean Breeze has no confirmed starting price yet — show the
+									// island alone rather than a dangling "from".
+									if ( ! empty( $d['from'] ) ) {
+										echo ' — from ' . esc_html( $d['from'] );
+									}
+									?>
+								</span>
 							</span>
 						</a>
 					<?php endforeach; ?>
@@ -65,21 +73,21 @@ $devs = easylot_developments();
 				</span>
 				<div class="dropdown">
 					<a class="dropitem" href="<?php echo esc_url( easylot_url( 'videos' ) ); ?>">
-						<span class="dropitem__thumb" style="display:grid;place-items:center;color:var(--red);"><?php easylot_the_icon( 'play' ); ?></span>
+						<span class="dropitem__thumb"><?php easylot_the_icon( 'play' ); ?></span>
 						<span>
 							<span class="dropitem__t">Video Guides</span>
 							<span class="dropitem__d">20 short answers, on video</span>
 						</span>
 					</a>
 					<a class="dropitem" href="<?php echo esc_url( easylot_url( 'faq' ) ); ?>">
-						<span class="dropitem__thumb" style="display:grid;place-items:center;color:var(--red);"><?php easylot_the_icon( 'doc' ); ?></span>
+						<span class="dropitem__thumb"><?php easylot_the_icon( 'doc' ); ?></span>
 						<span>
 							<span class="dropitem__t">Financing FAQ</span>
 							<span class="dropitem__d">Every answer, written out</span>
 						</span>
 					</a>
 					<a class="dropitem" href="<?php echo esc_url( easylot_url( 'how' ) ); ?>">
-						<span class="dropitem__thumb" style="display:grid;place-items:center;color:var(--red);"><?php easylot_the_icon( 'map' ); ?></span>
+						<span class="dropitem__thumb"><?php easylot_the_icon( 'map' ); ?></span>
 						<span>
 							<span class="dropitem__t">The 5 Steps</span>
 							<span class="dropitem__d">From pre-approval to title</span>
