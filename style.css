@@ -4,7 +4,7 @@ Theme URI: https://github.com/o0reyandre0o/easylot-cayman
 Author: Toc Toc Marketing
 Author URI: https://toctoc.ky/
 Description: Editorial WordPress theme for Easy Lot Cayman — teaches visitors how to buy land in the Cayman Islands with Direct Owner Financing. Hand-written CSS (no CDN framework), SEO/AEO structured data, self-hosted video guides and a floating video player.
-Version: 1.4.2
+Version: 1.5.0
 Requires at least: 6.0
 Tested up to: 6.8
 Requires PHP: 7.4
@@ -387,11 +387,11 @@ hr { border: 0; border-top: 1px solid var(--rule); margin: 3rem 0; }
 	left: 0;
 	min-width: 272px;
 	padding: 8px;
-	background: var(--paper);
-	color: var(--ink); /* the nav is dark; this panel is not — reset, or the titles vanish */
+	background: var(--white);
+	color: var(--ink);
 	border: 1px solid var(--rule);
 	border-radius: var(--r);
-	box-shadow: 0 30px 60px rgba(0, 0, 0, .3);
+	box-shadow: 0 26px 54px rgba(29, 27, 26, .16);
 	opacity: 0;
 	visibility: hidden;
 	transform: translateY(8px);
@@ -411,7 +411,7 @@ hr { border: 0; border-top: 1px solid var(--rule); margin: 3rem 0; }
 	transition: background-color .2s var(--ease), color .2s var(--ease);
 }
 .dropitem + .dropitem { border-top: 1px solid var(--rule-soft); }
-.dropitem:hover { background: var(--white); color: var(--red); }
+.dropitem:hover { background: var(--paper-2); color: var(--red); }
 .dropitem__thumb {
 	width: 48px; height: 48px; flex: none;
 	border-radius: var(--r); overflow: hidden; background: var(--paper-3);
@@ -449,8 +449,8 @@ hr { border: 0; border-top: 1px solid var(--rule); margin: 3rem 0; }
 	width: 42px; height: 42px;
 	align-items: center; justify-content: center;
 	border-radius: var(--r);
-	border: 1px solid var(--d-rule);
-	color: var(--d-text);
+	border: 1px solid var(--rule);
+	color: var(--ink);
 	cursor: pointer;
 	background: transparent;
 }
@@ -474,8 +474,8 @@ hr { border: 0; border-top: 1px solid var(--rule); margin: 3rem 0; }
 	position: fixed;
 	inset: 0;
 	z-index: 9500;
-	background: var(--ink);
-	color: var(--d-text);
+	background: var(--paper);
+	color: var(--ink);
 	transform: translateX(100%);
 	transition: transform .42s var(--ease);
 	display: flex;
@@ -486,11 +486,10 @@ hr { border: 0; border-top: 1px solid var(--rule); margin: 3rem 0; }
 .drawer__head {
 	display: flex; align-items: center; justify-content: space-between;
 	padding: 16px var(--gutter);
-	border-bottom: 1px solid var(--d-rule-soft);
-	position: sticky; top: 0; background: var(--ink); z-index: 2;
+	border-bottom: 1px solid var(--rule-soft);
+	position: sticky; top: 0; background: var(--paper); z-index: 2;
 }
 .drawer__head img { height: 28px; width: auto; display: block; }
-.drawer__head > img { background: var(--paper); padding: 7px 12px; border-radius: var(--r); display: inline-flex; align-items: center; }
 .drawer__body { padding: 26px var(--gutter) 56px; }
 .drawer__link {
 	display: block;
@@ -499,23 +498,23 @@ hr { border: 0; border-top: 1px solid var(--rule); margin: 3rem 0; }
 	font-weight: 700;
 	letter-spacing: -.04em;
 	padding: 14px 0;
-	border-bottom: 1px solid var(--d-rule-soft);
+	border-bottom: 1px solid var(--rule-soft);
 }
-.drawer__link:hover { color: var(--red-soft); }
+.drawer__link:hover { color: var(--red); }
 .drawer__sub {
 	display: block;
 	font-family: var(--sans);
 	font-size: .92rem;
 	font-weight: 600;
-	color: var(--d-mute);
+	color: var(--ink-55);
 	padding: 9px 0 9px 16px;
-	border-left: 1px solid var(--d-rule);
+	border-left: 1px solid var(--rule);
 }
-.drawer__sub:hover { color: var(--red-soft); border-color: var(--red); }
+.drawer__sub:hover { color: var(--red); border-color: var(--red); }
 .drawer__group { padding: 8px 0 16px; }
 .drawer__label {
 	font-size: .66rem; font-weight: 800; letter-spacing: .24em;
-	text-transform: uppercase; color: var(--red-soft); padding: 20px 0 10px;
+	text-transform: uppercase; color: var(--red); padding: 20px 0 10px;
 }
 
 body.is-locked { overflow: hidden; }
