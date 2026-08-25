@@ -16,7 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'EASYLOT_VERSION', '1.6.0' );
+define( 'EASYLOT_VERSION', '1.7.0' );
 
 require_once get_template_directory() . '/nav.php';
 require_once get_template_directory() . '/site-footer.php';
@@ -90,6 +90,91 @@ function easylot_resource_hints( $hints, $relation ) {
 	return $hints;
 }
 add_filter( 'wp_resource_hints', 'easylot_resource_hints', 10, 2 );
+
+/**
+ * Analytics and webmaster verification.
+ *
+ * IMPORTANT: as of this writing easylot.ky already loads GTM-NCWF3CG4, the GA4
+ * tag G-3GBTYZCWD9, the Meta Pixel and the Google site-verification meta from
+ * OUTSIDE this theme — they are injected into wp_head by a plugin. Printing
+ * them here as well would load a second container and count every pageview
+ * twice, so every 'print' flag below is false on purpose.
+ *
+ * They are kept here so that if that plugin is ever removed, restoring the full
+ * measurement setup is one boolean each rather than a hunt through an old theme.
+ * Check the page source for GTM- and G- before switching any of them on.
+ *
+ * The dataLayer EVENTS in main.js are a different matter and are always active:
+ * they only push into whatever container is already on the page, so they cannot
+ * double-count. Those events are what the theme change actually broke.
+ */
+function easylot_analytics() {
+	return apply_filters( 'easylot_analytics', array(
+		'gtm_id'          => 'GTM-NCWF3CG4',
+		'ga4_id'          => 'G-3GBTYZCWD9',
+		'google_verify'   => 'ttTvKYS7ZLU69lba7K8Ggdwlx7baTvu0nXwa7H2gt_c',
+
+		// Leave false while a plugin supplies these. See the note above.
+		'print_gtm'       => false,
+		'print_ga4'       => false,
+		'print_verify'    => false,
+	) );
+}
+
+/**
+ * Webmaster verification meta, if the theme is the one providing it.
+ */
+function easylot_verification_meta() {
+	$a = easylot_analytics();
+
+	if ( empty( $a['print_verify'] ) || empty( $a['google_verify'] ) ) {
+		return;
+	}
+
+	echo '<meta name="google-site-verification" content="' . esc_attr( $a['google_verify'] ) . '" />' . "
+";
+}
+add_action( 'wp_head', 'easylot_verification_meta', 1 );
+
+/**
+ * Google Tag Manager container and the GA4 tag, if the theme is providing them.
+ */
+function easylot_analytics_head() {
+	$a = easylot_analytics();
+
+	if ( ! empty( $a['print_gtm'] ) && ! empty( $a['gtm_id'] ) ) {
+		$id = esc_js( $a['gtm_id'] );
+		echo "<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','{$id}');</script>
+"; // phpcs:ignore
+	}
+
+	if ( ! empty( $a['print_ga4'] ) && ! empty( $a['ga4_id'] ) ) {
+		$id = esc_js( $a['ga4_id'] );
+		echo "<script async src=\"https://www.googletagmanager.com/gtag/js?id={$id}\"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','{$id}');</script>
+"; // phpcs:ignore
+	}
+}
+add_action( 'wp_head', 'easylot_analytics_head', 3 );
+
+/**
+ * The GTM <noscript> frame, which has to sit immediately inside <body>.
+ */
+function easylot_analytics_body() {
+	$a = easylot_analytics();
+
+	if ( empty( $a['print_gtm'] ) || empty( $a['gtm_id'] ) ) {
+		return;
+	}
+
+	printf(
+		'<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=%s" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>' . "
+",
+		esc_attr( $a['gtm_id'] )
+	);
+}
+add_action( 'wp_body_open', 'easylot_analytics_body', 1 );
 
 /* ==========================================================================
  * 3. SITE DATA — edit these, not the templates

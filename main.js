@@ -26,6 +26,60 @@ function easylotBoot() {
 	}
 
 	/* ------------------------------------------------------------------
+	 * dataLayer events
+	 *
+	 * The container, the GA4 tag and the Pixel are loaded elsewhere on this
+	 * site, so nothing here loads a tag — these only push into whatever
+	 * dataLayer is already on the page, which is what makes them safe to run
+	 * unconditionally. The event names and parameters deliberately match the
+	 * previous theme (cta_click, video_play, video_filter,
+	 * calculator_term_change) so the existing GTM triggers keep firing without
+	 * being reconfigured.
+	 * ------------------------------------------------------------------ */
+	function push(payload) {
+		window.dataLayer = window.dataLayer || [];
+		try { window.dataLayer.push(payload); } catch (e) {}
+	}
+
+	/* Which band of the page is this element in? Gives cta_location real
+	   meaning instead of a single bucket for the whole document. */
+	function locationOf(el) {
+		var section = el.closest ? el.closest('section, header, footer') : null;
+		if (!section) return 'page';
+		if (section.classList.contains('hero')) return 'hero';
+		if (section.classList.contains('page-hero')) return 'page_hero';
+		if (section.classList.contains('trust')) return 'figures';
+		if (section.classList.contains('site-footer')) return 'footer';
+		if (section.querySelector && section.querySelector('.cta-band')) return 'cta_band';
+		if (section.id) return section.id;
+		var head = section.querySelector && section.querySelector('.section-head h2, h2');
+		return head ? head.textContent.trim().toLowerCase().replace(/[^a-z0-9]+/g, '_').slice(0, 40) : 'section';
+	}
+
+	document.addEventListener('click', function (e) {
+		var btn = e.target.closest && e.target.closest('.btn, .navlink, .drawer__link, .foot-links a');
+		if (!btn) return;
+		push({
+			event: 'cta_click',
+			cta_location: locationOf(btn),
+			cta_text: (btn.textContent || '').trim().slice(0, 80),
+			cta_url: btn.getAttribute('href') || ''
+		});
+	}, true);
+
+	/* WhatsApp and phone are the two conversions that never reach a form. */
+	document.addEventListener('click', function (e) {
+		var link = e.target.closest && e.target.closest('a[href^="https://wa.me"], a[href^="tel:"], a[href^="mailto:"]');
+		if (!link) return;
+		var href = link.getAttribute('href') || '';
+		push({
+			event: 'contact_click',
+			contact_method: href.indexOf('wa.me') > -1 ? 'whatsapp' : (href.indexOf('tel:') === 0 ? 'phone' : 'email'),
+			cta_location: locationOf(link)
+		});
+	}, true);
+
+	/* ------------------------------------------------------------------
 	 * Sticky nav shadow + read progress bar
 	 * ------------------------------------------------------------------ */
 	(function nav() {
@@ -163,9 +217,18 @@ function easylotBoot() {
 			if (lastFocus && lastFocus.focus) lastFocus.focus();
 		}
 
-		function open(src, caption, orientation) {
+		function open(src, caption, orientation, origin) {
 			lastFocus = document.activeElement;
 			slot.innerHTML = '';
+
+			// Every card, the hero link and the floating player all open here,
+			// so this is the only place video_play needs to be pushed.
+			push({
+				event: 'video_play',
+				video_id: src || '',
+				video_title: caption || '',
+				video_location: origin || 'page'
+			});
 
 			var video = document.createElement('video');
 			video.src = src;
@@ -206,7 +269,8 @@ function easylotBoot() {
 			lightbox.open(
 				card.getAttribute('data-video'),
 				card.getAttribute('data-caption'),
-				card.getAttribute('data-orientation')
+				card.getAttribute('data-orientation'),
+				locationOf(card)
 			);
 		});
 	});
@@ -224,6 +288,8 @@ function easylotBoot() {
 			clickable(pill, function () {
 				var want = pill.getAttribute('data-filter');
 				pills.forEach(function (p) { p.classList.toggle('is-active', p === pill); });
+
+				push({ event: 'video_filter', video_category: want });
 
 				var shown = 0;
 				$$('.vcard', grid).forEach(function (card) {
@@ -279,7 +345,7 @@ function easylotBoot() {
 		clickable(mp, function (e) {
 			if (closeBtn && closeBtn.contains(e.target)) return;
 			if (video) video.pause();
-			lightbox.open(mp.getAttribute('data-full'), mp.getAttribute('data-caption'), 'vertical');
+			lightbox.open(mp.getAttribute('data-full'), mp.getAttribute('data-caption'), 'vertical', 'floating_player');
 		});
 
 		clickable(closeBtn, function (e) {
@@ -355,6 +421,26 @@ function easylotBoot() {
 		[price, down, term].forEach(function (input) {
 			if (input) input.addEventListener('input', run);
 		});
+
+		/* Fire on 'change', not 'input': dragging a slider emits dozens of
+		   input events and would flood the container with a hit each. */
+		if (term) {
+			term.addEventListener('change', function () {
+				push({ event: 'calculator_term_change', term_years: parseFloat(term.value) });
+			});
+		}
+		[price, down].forEach(function (input) {
+			if (!input) return;
+			input.addEventListener('change', function () {
+				push({
+					event: 'calculator_change',
+					lot_price: parseFloat(price.value),
+					down_percent: parseFloat(down.value),
+					term_years: parseFloat(term.value)
+				});
+			});
+		});
+
 		run();
 	}());
 }
