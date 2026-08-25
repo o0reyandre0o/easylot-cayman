@@ -88,7 +88,11 @@ get_header();
 			<aside>
 				<div class="card" style="margin-bottom:22px;">
 					<h2 style="font-size:1.3rem;">Talk to a person instead</h2>
-					<p style="margin-bottom:22px;">Nothing here commits you to anything. If it is easier to ask first, ask first.</p>
+					<p style="margin-bottom:22px;">
+						Chat directly with our sales director, <strong>Tommy Sofield</strong>, on WhatsApp
+						for real-time information on land availability. Nothing here commits you to
+						anything &mdash; if it is easier to ask first, ask first.
+					</p>
 					<div class="btn-row">
 						<a class="btn btn--primary btn--wide" href="<?php echo esc_url( $c['whatsapp'] ); ?>" target="_blank" rel="noopener">
 							<?php easylot_the_icon( 'whatsapp' ); ?> WhatsApp us

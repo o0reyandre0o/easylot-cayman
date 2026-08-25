@@ -16,7 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'EASYLOT_VERSION', '1.4.1' );
+define( 'EASYLOT_VERSION', '1.4.2' );
 
 require_once get_template_directory() . '/nav.php';
 require_once get_template_directory() . '/site-footer.php';
@@ -190,10 +190,10 @@ function easylot_developments() {
  */
 function easylot_values() {
 	return array(
-		array( 'icon' => 'shield', 'name' => 'Safety',     'text' => 'Prioritising the well-being and security of individuals and environments in every development.' ),
+		array( 'icon' => 'shield', 'name' => 'Safety',     'text' => 'Prioritizing the well-being and security of individuals and environments in every development.' ),
 		array( 'icon' => 'people', 'name' => 'People',     'text' => 'Building customer relationships through trust, transparency and understanding. Putting your needs at the forefront.' ),
-		array( 'icon' => 'check-c', 'name' => 'Integrity', 'text' => 'Upholding honesty, ethics and moral principles in all actions and decisions. Doing more than what is expected.' ),
-		array( 'icon' => 'globe',  'name' => 'Respect',    'text' => 'Treating others with consideration and empathy, and valuing diverse perspectives in our community.' ),
+		array( 'icon' => 'check-c', 'name' => 'Integrity', 'text' => 'Upholding honesty, ethics, and moral principles in all actions and decisions. Doing more than what is expected.' ),
+		array( 'icon' => 'globe',  'name' => 'Respect',    'text' => 'Treating others with consideration, empathy, and valuing diverse perspectives in our community.' ),
 		array( 'icon' => 'spark',  'name' => 'Innovation', 'text' => 'Embracing creativity, adapting to change, and seeking new solutions to simplify land ownership.' ),
 		array( 'icon' => 'chart',  'name' => 'Teamwork',   'text' => 'Combining individual strengths to develop exceptional results and lasting developments.' ),
 	);
@@ -208,17 +208,17 @@ function easylot_route() {
 		array(
 			'n'    => '01',
 			'name' => 'The route',
-			'text' => 'Coming from town, head toward Health City. If you are not familiar with Health City, put it into Google Maps and the directions will lead you to it from anywhere on the island.',
+			'text' => 'Coming from town you will want to head toward Health City. If you are not familiar with Health City, you can put it into Google Maps and the directions will lead you to it from anywhere on the island.',
 		),
 		array(
 			'n'    => '02',
 			'name' => 'Turn onto High Rock',
-			'text' => 'After passing Health City, the next left you can make is High Rock Drive. You will see our sign on the main road. Turn left here.',
+			'text' => 'After passing Health City, the next left you can make is called High Rock Drive. You will see our sign on the main road. Turn left here.',
 		),
 		array(
 			'n'    => '03',
 			'name' => 'Arrival',
-			'text' => 'You will see a set of new townhomes on the corner just behind our sign. Continue down High Rock Drive for half a mile and look for our second sign on the right. That marks the beginning of the development, which is on the right side of High Rock Drive if you are coming from the ocean.',
+			'text' => 'You will see a set of new townhomes on the corner just behind our sign. Continue down High Rock Dr for half a mile. Look for our second sign on the right. This marks the beginning of the development. The development will be on the right side of High Rock Dr if you are coming from the ocean.',
 		),
 	);
 }
