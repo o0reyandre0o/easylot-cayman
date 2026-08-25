@@ -4,7 +4,7 @@ Theme URI: https://github.com/o0reyandre0o/easylot-cayman
 Author: Toc Toc Marketing
 Author URI: https://toctoc.ky/
 Description: Editorial WordPress theme for Easy Lot Cayman — teaches visitors how to buy land in the Cayman Islands with Direct Owner Financing. Hand-written CSS (no CDN framework), SEO/AEO structured data, self-hosted video guides and a floating video player.
-Version: 1.4.1
+Version: 1.4.2
 Requires at least: 6.0
 Tested up to: 6.8
 Requires PHP: 7.4
@@ -333,7 +333,10 @@ hr { border: 0; border-top: 1px solid var(--rule); margin: 3rem 0; }
 }
 
 /* The brand mark is dark-on-transparent, so it is inverted on the dark bar. */
-.site-nav__logo img { height: 34px; width: auto; object-fit: contain; filter: invert(1) brightness(1.9); }
+/* The brand mark is full colour with a dark wordmark. It cannot be recoloured
+   or inverted without wrecking it, so it sits on a paper plaque instead. */
+.site-nav__logo { background: var(--paper); padding: 7px 12px; border-radius: var(--r); display: inline-flex; align-items: center; }
+.site-nav__logo img { height: 30px; width: auto; object-fit: contain; display: block; }
 
 /* Typographic mark, used when no logo image can load (see easylot_logo_img). */
 .logo-text {
@@ -486,7 +489,8 @@ hr { border: 0; border-top: 1px solid var(--rule); margin: 3rem 0; }
 	border-bottom: 1px solid var(--d-rule-soft);
 	position: sticky; top: 0; background: var(--ink); z-index: 2;
 }
-.drawer__head img { height: 30px; width: auto; filter: invert(1) brightness(1.9); }
+.drawer__head img { height: 28px; width: auto; display: block; }
+.drawer__head > img { background: var(--paper); padding: 7px 12px; border-radius: var(--r); display: inline-flex; align-items: center; }
 .drawer__body { padding: 26px var(--gutter) 56px; }
 .drawer__link {
 	display: block;
@@ -1606,7 +1610,8 @@ input[type="range"]::-moz-range-thumb {
 @media (max-width: 560px) { .site-footer__grid { grid-template-columns: 1fr; gap: 32px; } }
 
 .site-footer__logo { display: block; margin-bottom: 22px; }
-.site-footer__logo img { height: 32px; width: auto; filter: invert(1) brightness(1.9); }
+.site-footer__logo { background: var(--paper); padding: 7px 12px; border-radius: var(--r); display: inline-flex; align-items: center; margin-bottom: 22px; }
+.site-footer__logo img { height: 30px; width: auto; display: block; }
 .site-footer p { font-size: .91rem; color: var(--d-mute); }
 
 .foot-label {
