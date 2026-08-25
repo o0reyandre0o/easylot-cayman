@@ -16,7 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'EASYLOT_VERSION', '1.0.4' );
+define( 'EASYLOT_VERSION', '1.0.5' );
 
 require_once __DIR__ . '/setup-pages.php';
 
