@@ -4,7 +4,7 @@ Theme URI: https://github.com/o0reyandre0o/easylot-cayman
 Author: Toc Toc Marketing
 Author URI: https://toctoc.ky/
 Description: Editorial WordPress theme for Easy Lot Cayman — teaches visitors how to buy land in the Cayman Islands with Direct Owner Financing. Hand-written CSS (no CDN framework), SEO/AEO structured data, self-hosted video guides and a floating video player.
-Version: 1.5.1
+Version: 1.5.2
 Requires at least: 6.0
 Tested up to: 6.8
 Requires PHP: 7.4
@@ -1606,10 +1606,14 @@ input[type="range"]::-moz-range-thumb {
 	display: grid;
 	grid-template-columns: 1.6fr 1fr 1fr 1.15fr;
 	gap: 40px;
-	padding: clamp(56px, 7vw, 96px) 0 48px;
+	padding-block: clamp(48px, 7vw, 96px) 44px;
 }
-@media (max-width: 1000px) { .site-footer__grid { grid-template-columns: 1fr 1fr; } }
-@media (max-width: 560px) { .site-footer__grid { grid-template-columns: 1fr; gap: 32px; } }
+@media (max-width: 1000px) { .site-footer__grid { grid-template-columns: 1fr 1fr; gap: 36px; } }
+@media (max-width: 620px) {
+	.site-footer__grid { grid-template-columns: 1fr; gap: 30px; }
+	/* Long, unbreakable strings like the email must not push the layout wide. */
+	.site-footer, .site-footer a { overflow-wrap: anywhere; }
+}
 
 .site-footer__logo { display: block; margin-bottom: 22px; }
 .site-footer__logo { background: var(--paper); padding: 7px 12px; border-radius: var(--r); display: inline-flex; align-items: center; margin-bottom: 22px; }
@@ -1640,10 +1644,20 @@ input[type="range"]::-moz-range-thumb {
 .site-footer__bar {
 	border-top: 1px solid var(--d-rule-soft);
 	padding: 24px 0 32px;
-	display: flex; flex-wrap: wrap; gap: 14px;
+	display: flex; flex-wrap: wrap; gap: 10px 20px;
 	align-items: center; justify-content: space-between;
 	font-size: .71rem; font-weight: 600; letter-spacing: .08em;
 	color: var(--d-faint);
+	line-height: 1.6;
+}
+@media (max-width: 700px) {
+	.site-footer__bar {
+		flex-direction: column;
+		align-items: flex-start;
+		justify-content: flex-start;
+		gap: 8px;
+		text-align: left;
+	}
 }
 .site-footer__bar a { color: var(--d-mute); }
 .site-footer__bar a:hover { color: var(--red-soft); }
