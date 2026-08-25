@@ -360,7 +360,6 @@ get_header();
 				<div class="calc__rows">
 					<div class="calc__row"><span>Down payment today</span><b id="calc-deposit">$0</b></div>
 					<div class="calc__row"><span>Amount financed</span><b id="calc-financed">$0</b></div>
-					<div class="calc__row"><span>Total paid over the term</span><b id="calc-total">$0</b></div>
 				</div>
 
 				<a class="btn btn--primary btn--wide" href="<?php echo esc_url( easylot_url( 'contact' ) ); ?>">

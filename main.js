@@ -322,7 +322,6 @@ function easylotBoot() {
 		var monthly = $('#calc-monthly-val', root) || $('#calc-monthly', root);
 		var depositOut = $('#calc-deposit', root);
 		var financedOut = $('#calc-financed', root);
-		var totalOut = $('#calc-total', root);
 
 		var RATE = parseFloat(root.getAttribute('data-rate') || '7.5') / 100;
 
@@ -351,7 +350,6 @@ function easylotBoot() {
 			monthly.textContent = money(payment);
 			depositOut.textContent = money(deposit);
 			financedOut.textContent = money(financed);
-			totalOut.textContent = money(deposit + payment * n);
 		}
 
 		[price, down, term].forEach(function (input) {

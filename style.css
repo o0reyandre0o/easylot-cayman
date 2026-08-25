@@ -4,7 +4,7 @@ Theme URI: https://github.com/o0reyandre0o/easylot-cayman
 Author: Toc Toc Marketing
 Author URI: https://toctoc.ky/
 Description: Editorial WordPress theme for Easy Lot Cayman — teaches visitors how to buy land in the Cayman Islands with Direct Owner Financing. Hand-written CSS (no CDN framework), SEO/AEO structured data, self-hosted video guides and a floating video player.
-Version: 1.5.3
+Version: 1.6.0
 Requires at least: 6.0
 Tested up to: 6.8
 Requires PHP: 7.4
@@ -1778,7 +1778,9 @@ input[type="range"]::-moz-range-thumb {
 	/* One red tag per video card is enough; the play button carries the rest. */
 	.vcard__tag { font-size: .55rem; padding: 6px 9px; }
 
-	.site-footer__grid { padding: 48px 0 36px; }
+	/* padding-block, never the shorthand: this element also carries .wrap,
+	   and a shorthand here silently zeroes the page gutter. */
+	.site-footer__grid { padding-block: 48px 36px; }
 	.site-footer__bar { justify-content: flex-start; gap: 8px; font-size: .68rem; }
 }
 
