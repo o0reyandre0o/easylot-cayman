@@ -107,7 +107,7 @@ get_header();
 				     data-caption="<?php echo esc_attr( $hero_v['question'] ); ?>"
 				     aria-label="Play video: How does Direct Owner Financing work?">
 					<video src="<?php echo esc_url( $hero_v['src'] ); ?>#t=0.6" preload="metadata" muted playsinline
-					       poster="<?php echo esc_url( $c['og_image'] ); ?>" tabindex="-1" aria-hidden="true"></video>
+					       poster="<?php echo esc_url( get_template_directory_uri() . '/assets/og/og-home.jpg' ); ?>" tabindex="-1" aria-hidden="true"></video>
 					<span class="vcard__veil"></span>
 					<span class="vcard__tag">Watch first</span>
 					<span class="vcard__play"><?php easylot_the_icon( 'play' ); ?></span>
@@ -118,7 +118,7 @@ get_header();
 				</div>
 			<?php else : ?>
 				<div class="hero__media">
-					<img src="<?php echo esc_url( $c['og_image'] ); ?>" alt="Aerial view of land in Grand Cayman" width="900" height="1125">
+					<img src="<?php echo esc_url( get_template_directory_uri() . '/assets/og/og-home.jpg' ); ?>" alt="Easy Lot — land for sale in the Cayman Islands" width="1200" height="630">
 				</div>
 			<?php endif; ?>
 

@@ -16,7 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'EASYLOT_VERSION', '1.0.6' );
+define( 'EASYLOT_VERSION', '1.0.7' );
 
 require_once __DIR__ . '/setup-pages.php';
 
@@ -651,8 +651,9 @@ function easylot_video_poster( $v ) {
 	if ( ! empty( $v['poster'] ) ) {
 		return $v['poster'];
 	}
-	$c = easylot_contact();
-	return $c['og_image'];
+	// Local card, not the easylot.ky aerial: the staging domain cannot
+	// hotlink easylot.ky media through its WAF.
+	return get_template_directory_uri() . '/assets/og/og-videos.jpg';
 }
 
 /**
@@ -1030,11 +1031,55 @@ function easylot_seo_description() {
 	return 'Buy land in Grand Cayman and Little Cayman with Direct Owner Financing. No banks, no mortgage, down payments from 5%, fixed monthly payments and a 5-minute online pre-approval.';
 }
 
+
+/**
+ * The Open Graph card for the current URL.
+ *
+ * One designed 1200x630 card per page, generated in the theme's "Ledger"
+ * language and shipped in assets/og/ so they deploy with git and never depend
+ * on the easylot.ky media library.
+ */
+function easylot_og_image() {
+	$base = get_template_directory_uri() . '/assets/og/';
+
+	if ( is_front_page() ) {
+		return $base . 'og-home.jpg';
+	}
+	if ( is_singular( 'project' ) ) {
+		return $base . 'og-developments.jpg';
+	}
+	if ( is_page() ) {
+		$map = array(
+			'template-how-to-buy.php'   => 'og-how.jpg',
+			'template-developments.php' => 'og-developments.jpg',
+			'template-video-guides.php' => 'og-videos.jpg',
+			'template-faq.php'          => 'og-faq.jpg',
+			'template-contact.php'      => 'og-contact.jpg',
+			'template-about.php'        => 'og-about.jpg',
+			'template-team.php'         => 'og-team.jpg',
+			'template-directions.php'   => 'og-directions.jpg',
+		);
+		$tpl = get_page_template_slug();
+		if ( isset( $map[ $tpl ] ) ) {
+			return $base . $map[ $tpl ];
+		}
+	}
+	return $base . 'og-default.jpg';
+}
+
 function easylot_head() {
 	global $easylot_seo_image;
-	$c     = easylot_contact();
-	$image = ! empty( $easylot_seo_image ) ? $easylot_seo_image : $c['og_image'];
-	$url   = easylot_current_url();
+	$c = easylot_contact();
+
+	if ( ! empty( $easylot_seo_image ) ) {
+		$image = $easylot_seo_image; // a template asked for something specific
+	} elseif ( is_singular( 'post' ) && has_post_thumbnail() ) {
+		$image = get_the_post_thumbnail_url( null, 'full' ); // blog posts keep their own art
+	} else {
+		$image = easylot_og_image();
+	}
+
+	$url = easylot_current_url();
 
 	if ( ! easylot_seo_plugin_active() ) {
 		echo '<meta name="description" content="' . esc_attr( easylot_seo_description() ) . '" />' . "\n";
@@ -1047,6 +1092,8 @@ function easylot_head() {
 		echo '<meta property="og:description" content="' . esc_attr( easylot_seo_description() ) . '" />' . "\n";
 		echo '<meta property="og:url" content="' . esc_url( $url ) . '" />' . "\n";
 		echo '<meta property="og:image" content="' . esc_url( $image ) . '" />' . "\n";
+		echo '<meta property="og:image:width" content="1200" />' . "\n";
+		echo '<meta property="og:image:height" content="630" />' . "\n";
 		echo '<meta name="twitter:card" content="summary_large_image" />' . "\n";
 		echo '<meta name="twitter:title" content="' . esc_attr( easylot_seo_title() ) . '" />' . "\n";
 		echo '<meta name="twitter:description" content="' . esc_attr( easylot_seo_description() ) . '" />' . "\n";
