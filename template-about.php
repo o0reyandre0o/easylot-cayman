@@ -2,9 +2,14 @@
 /**
  * Template Name: About Us
  *
- * Builds the whole page itself. the_content() prints as an optional extra, so
- * the page stays designed when the body is empty — which is the state most
- * pages are in after a theme change.
+ * Content first: whatever the page itself says is the body of the page, run
+ * through easylot_the_clean_content() so markup written for the old theme
+ * loses its dead utility classes and picks up this theme's typography.
+ *
+ * The written sections below are a fallback, not a layer on top — they only
+ * render when the page has no content of its own, so nothing is ever said
+ * twice. The structural blocks (figures, developments, video, CTA) always
+ * render, because those are the page's furniture rather than its copy.
  *
  * @package EasyLotCayman
  */
@@ -12,6 +17,7 @@
 $c        = easylot_contact();
 $devs     = array_slice( easylot_developments(), 0, 3 );
 $featured = easylot_videos( array( 'featured' => true ) );
+$has_body = easylot_has_content();
 
 $GLOBALS['easylot_seo_title']       = 'About Easy Lot — Owner-Financed Land in the Cayman Islands';
 $GLOBALS['easylot_seo_description'] = 'Easy Lot owns and finances land in Grand Cayman and Little Cayman, so buyers can own a lot without a bank. Who we are, how the financing works, and why we do it this way.';
@@ -65,6 +71,9 @@ get_header();
 	</div>
 </section>
 
+<?php /* The page has its own words for this; only fall back to
+         ours when it does not. */ ?>
+<?php if ( ! $has_body ) : ?>
 <!-- ============================================================ THE STORY -->
 <section class="section section--paper">
 	<div class="wrap hero__grid">
@@ -100,7 +109,11 @@ get_header();
 		</div>
 	</div>
 </section>
+<?php endif; ?>
 
+<?php /* The page has its own words for this; only fall back to
+         ours when it does not. */ ?>
+<?php if ( ! $has_body ) : ?>
 <!-- ============================================================ HOW WE WORK -->
 <section class="section section--white">
 	<div class="wrap">
@@ -127,7 +140,11 @@ get_header();
 		</div>
 	</div>
 </section>
+<?php endif; ?>
 
+<?php /* The page has its own words for this; only fall back to
+         ours when it does not. */ ?>
+<?php if ( ! $has_body ) : ?>
 <!-- ============================================================ WHAT WE ARE NOT -->
 <section class="section section--ink">
 	<div class="wrap">
@@ -160,6 +177,23 @@ get_header();
 		</div>
 	</div>
 </section>
+<?php endif; ?>
+
+<!-- ============================================================ PAGE BODY -->
+<?php if ( $has_body ) : ?>
+	<section class="section section--paper">
+		<div class="wrap">
+			<?php
+			while ( have_posts() ) {
+				the_post();
+				?>
+				<div class="entry-content"><?php easylot_the_clean_content(); ?></div>
+				<?php
+			}
+			?>
+		</div>
+	</section>
+<?php endif; ?>
 
 <!-- ============================================================ WHERE -->
 <section class="section section--paper">
@@ -207,22 +241,6 @@ get_header();
 		</div>
 	</div>
 </section>
-
-<!-- ============================================================ PAGE BODY -->
-<?php if ( easylot_has_content() ) : ?>
-	<section class="section section--white">
-		<div class="wrap">
-			<?php
-			while ( have_posts() ) {
-				the_post();
-				?>
-				<div class="entry-content entry-content--full"><?php the_content(); ?></div>
-				<?php
-			}
-			?>
-		</div>
-	</section>
-<?php endif; ?>
 
 <!-- ============================================================ CTA -->
 <section class="section section--tight section--paper">

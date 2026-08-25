@@ -2,14 +2,16 @@
 /**
  * Template Name: Directions
  *
- * Builds the whole page itself. the_content() prints underneath as an optional
- * extra, so the page stays designed when the body is empty.
+ * Content first: the page's own words are the body, cleaned of the old theme's
+ * dead utility classes. The office details, the map and the developments always
+ * render; the written advice below is a fallback for when the page is empty.
  *
  * @package EasyLotCayman
  */
 
 $c    = easylot_contact();
 $devs = array_slice( easylot_developments(), 0, 3 );
+$has_body = easylot_has_content();
 
 $GLOBALS['easylot_seo_title']       = 'Find the Easy Lot Office in George Town, Grand Cayman';
 $GLOBALS['easylot_seo_description'] = 'Directions to the Easy Lot office at 207 Sparky Dr. Suite 6, George Town, Grand Cayman. Call or WhatsApp us to arrange a site visit to any of our owner-financed developments.';
@@ -106,6 +108,22 @@ get_header();
 	</div>
 </section>
 
+<!-- ============================================================ PAGE BODY -->
+<?php if ( $has_body ) : ?>
+	<section class="section section--paper">
+		<div class="wrap">
+			<?php
+			while ( have_posts() ) {
+				the_post();
+				?>
+				<div class="entry-content"><?php easylot_the_clean_content(); ?></div>
+				<?php
+			}
+			?>
+		</div>
+	</section>
+<?php endif; ?>
+
 <!-- ============================================================ SEEING THE LAND -->
 <section class="section section--ink">
 	<div class="wrap">
@@ -139,6 +157,9 @@ get_header();
 	</div>
 </section>
 
+<?php /* The page has its own words for this; only fall back to
+         ours when it does not. */ ?>
+<?php if ( ! $has_body ) : ?>
 <!-- ============================================================ BEFORE YOU COME -->
 <section class="section section--white">
 	<div class="wrap">
@@ -163,21 +184,6 @@ get_header();
 		</div>
 	</div>
 </section>
-
-<!-- ============================================================ PAGE BODY -->
-<?php if ( easylot_has_content() ) : ?>
-	<section class="section section--tight section--paper">
-		<div class="wrap">
-			<?php
-			while ( have_posts() ) {
-				the_post();
-				?>
-				<div class="entry-content entry-content--full"><?php the_content(); ?></div>
-				<?php
-			}
-			?>
-		</div>
-	</section>
 <?php endif; ?>
 
 <!-- ============================================================ CTA -->

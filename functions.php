@@ -16,7 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'EASYLOT_VERSION', '1.2.0' );
+define( 'EASYLOT_VERSION', '1.3.0' );
 
 require_once get_template_directory() . '/nav.php';
 require_once get_template_directory() . '/site-footer.php';
@@ -520,6 +520,39 @@ function easylot_faqs() {
 function easylot_has_content( $post = null ) {
 	$content = get_post_field( 'post_content', $post ? $post : get_the_ID() );
 	return '' !== trim( wp_strip_all_tags( (string) $content ) );
+}
+
+/**
+ * Strip presentation off content written for the previous theme.
+ *
+ * The old site was built on Tailwind utility classes and inline styles. That
+ * stylesheet is gone, so the markup survives with no design behind it — which
+ * is why pages carried over from it look unstyled next to the rest of the site.
+ * Removing class and style attributes leaves the semantics (headings, lists,
+ * links, images, tables) for .entry-content to style properly.
+ *
+ * Elementor content is left alone: its classes are how it renders at all.
+ */
+function easylot_clean_legacy_markup( $html ) {
+	$html = preg_replace( '#<style[^>]*>.*?</style>#is', '', $html );
+	$html = preg_replace( '#\s(?:class|style)="[^"]*"#i', '', $html );
+	$html = preg_replace( "#\s(?:class|style)='[^']*'#i", '', $html );
+	// Old layout wrappers with nothing left in them.
+	$html = preg_replace( '#<(div|span|section)>\s*</\1>#i', '', $html );
+	return $html;
+}
+
+/**
+ * Print the page body, cleaned of dead legacy styling.
+ */
+function easylot_the_clean_content() {
+	$html = apply_filters( 'the_content', get_the_content() );
+
+	if ( ! easylot_is_built_with_elementor( get_the_ID() ) ) {
+		$html = easylot_clean_legacy_markup( $html );
+	}
+
+	echo $html; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 }
 
 /**

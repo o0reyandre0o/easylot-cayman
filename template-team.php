@@ -2,16 +2,19 @@
 /**
  * Template Name: Meet the Team
  *
- * The page stands on its own. easylot_team() is empty by default — the theme
- * will not invent names or photographs — so the page leads with what a buyer
- * actually wants to know (who handles what, and who they will be dealing with
- * at each stage) and renders the card grid only once real people are added.
+ * Content first: the page's own words are the body, cleaned of the old theme's
+ * dead utility classes. The written sections are a fallback that only render
+ * when the page is empty, so nothing appears twice.
+ *
+ * easylot_team() is empty by default — the theme will not invent names or
+ * photographs — and the card grid appears once real people are added.
  *
  * @package EasyLotCayman
  */
 
 $c    = easylot_contact();
 $team = easylot_team();
+$has_body = easylot_has_content();
 
 $GLOBALS['easylot_seo_title']       = 'Meet the Easy Lot Team | Owner-Financed Land in the Cayman Islands';
 $GLOBALS['easylot_seo_description'] = 'The people behind Easy Lot: who handles your pre-approval, your documents, your site visit and your closing when you buy owner-financed land in the Cayman Islands.';
@@ -63,6 +66,9 @@ get_header();
 	</div>
 </header>
 
+<?php /* The page has its own words for this; only fall back to
+         ours when it does not. */ ?>
+<?php if ( ! $has_body ) : ?>
 <!-- ============================================================ WHO DOES WHAT -->
 <section class="section section--paper">
 	<div class="wrap">
@@ -99,6 +105,23 @@ get_header();
 		</div>
 	</div>
 </section>
+<?php endif; ?>
+
+<!-- ============================================================ PAGE BODY -->
+<?php if ( $has_body ) : ?>
+	<section class="section section--paper">
+		<div class="wrap">
+			<?php
+			while ( have_posts() ) {
+				the_post();
+				?>
+				<div class="entry-content"><?php easylot_the_clean_content(); ?></div>
+				<?php
+			}
+			?>
+		</div>
+	</section>
+<?php endif; ?>
 
 <!-- ============================================================ THE PEOPLE -->
 <?php if ( $team ) : ?>
@@ -128,6 +151,9 @@ get_header();
 	</section>
 <?php endif; ?>
 
+<?php /* The page has its own words for this; only fall back to
+         ours when it does not. */ ?>
+<?php if ( ! $has_body ) : ?>
 <!-- ============================================================ HOW WE WORK -->
 <section class="section section--ink">
 	<div class="wrap">
@@ -152,21 +178,6 @@ get_header();
 		</div>
 	</div>
 </section>
-
-<!-- ============================================================ PAGE BODY -->
-<?php if ( easylot_has_content() ) : ?>
-	<section class="section section--white">
-		<div class="wrap">
-			<?php
-			while ( have_posts() ) {
-				the_post();
-				?>
-				<div class="entry-content entry-content--full"><?php the_content(); ?></div>
-				<?php
-			}
-			?>
-		</div>
-	</section>
 <?php endif; ?>
 
 <!-- ============================================================ CTA -->

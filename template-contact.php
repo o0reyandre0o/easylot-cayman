@@ -2,14 +2,16 @@
 /**
  * Template Name: Contact / Pre-Approval
  *
- * The page content is where the pre-approval form lives, and it prints
- * untouched. Everything around it is built here, so the page still reads as a
- * designed page while the form is being wired up.
+ * The page content is where the pre-approval form lives. It prints first and,
+ * unless it is an Elementor build, is cleaned of the old theme's dead utility
+ * classes on the way out. Everything around it is built here, so the page still
+ * reads as a designed page while the form is being wired up.
  *
  * @package EasyLotCayman
  */
 
 $c = easylot_contact();
+$has_body = easylot_has_content();
 
 $GLOBALS['easylot_seo_title']       = 'Get Pre-Approved for Land in the Cayman Islands | Easy Lot';
 $GLOBALS['easylot_seo_description'] = 'Free 5-minute pre-approval for owner-financed land in Grand Cayman and Little Cayman. Four documents, no bank, no obligation. Call, WhatsApp or apply online.';
@@ -50,12 +52,12 @@ get_header();
 		<div class="grid grid-2" style="align-items:start;gap:clamp(30px,5vw,52px);">
 
 			<div>
-				<?php if ( easylot_has_content() ) : ?>
+				<?php if ( $has_body ) : ?>
 					<div class="entry-content entry-content--full" style="font-size:1rem;">
 						<?php
 						while ( have_posts() ) {
 							the_post();
-							the_content();
+							easylot_the_clean_content();
 						}
 						?>
 					</div>
@@ -128,6 +130,9 @@ get_header();
 	</div>
 </section>
 
+<?php /* The page has its own words for this; only fall back to
+         ours when it does not. */ ?>
+<?php if ( ! $has_body ) : ?>
 <!-- ============================================================ WHAT HAPPENS NEXT -->
 <section class="section section--white">
 	<div class="wrap">
@@ -160,6 +165,7 @@ get_header();
 		</div>
 	</div>
 </section>
+<?php endif; ?>
 
 <!-- ============================================================ VIDEO -->
 <section class="section section--paper-3">
