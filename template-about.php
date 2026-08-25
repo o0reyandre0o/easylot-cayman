@@ -2,25 +2,22 @@
 /**
  * Template Name: About Us
  *
- * Content first: whatever the page itself says is the body of the page, run
- * through easylot_the_clean_content() so markup written for the old theme
- * loses its dead utility classes and picks up this theme's typography.
- *
- * The written sections below are a fallback, not a layer on top — they only
- * render when the page has no content of its own, so nothing is ever said
- * twice. The structural blocks (figures, developments, video, CTA) always
- * render, because those are the page's furniture rather than its copy.
+ * The copy here is Easy Lot's own, carried over from the previous theme's
+ * template-about-us.php — the mission, the Cayman Development Group backing,
+ * the vision, and the six core values. That is where it lived: the WordPress
+ * pages themselves were empty, which is why the information looked lost when
+ * the theme changed.
  *
  * @package EasyLotCayman
  */
 
 $c        = easylot_contact();
 $devs     = array_slice( easylot_developments(), 0, 3 );
+$values   = easylot_values();
 $featured = easylot_videos( array( 'featured' => true ) );
-$has_body = easylot_has_content();
 
-$GLOBALS['easylot_seo_title']       = 'About Easy Lot — Owner-Financed Land in the Cayman Islands';
-$GLOBALS['easylot_seo_description'] = 'Easy Lot owns and finances land in Grand Cayman and Little Cayman, so buyers can own a lot without a bank. Who we are, how the financing works, and why we do it this way.';
+$GLOBALS['easylot_seo_title']       = 'About Easy Lot Cayman | Our Mission &amp; Financing Story';
+$GLOBALS['easylot_seo_description'] = 'Easy Lot empowers individuals and families to achieve land ownership in the Cayman Islands with owner financing. Backed by Cayman Development Group and founded by Tommy Sofield.';
 
 $trail = array(
 	'Home'  => home_url( '/' ),
@@ -30,9 +27,16 @@ $trail = array(
 add_filter( 'easylot_schema_graph', function ( $graph ) use ( $trail, $featured ) {
 	$graph[] = easylot_breadcrumbs( $trail );
 	$graph[] = array(
-		'@type' => 'AboutPage',
-		'@id'   => easylot_url( 'about' ) . '#aboutpage',
-		'about' => array( '@id' => home_url( '/' ) . '#organization' ),
+		'@type'      => 'AboutPage',
+		'@id'        => easylot_url( 'about' ) . '#aboutpage',
+		'about'      => array( '@id' => home_url( '/' ) . '#organization' ),
+		'mainEntity' => array(
+			'@type'              => 'Organization',
+			'name'               => 'Easy Lot',
+			'foundingDate'       => '2023',
+			'founder'            => array( '@type' => 'Person', 'name' => 'Tommy Sofield' ),
+			'parentOrganization' => array( '@type' => 'Organization', 'name' => 'Cayman Development Group' ),
+		),
 	);
 	return array_merge( $graph, easylot_video_schema_nodes( $featured ) );
 } );
@@ -43,60 +47,62 @@ get_header();
 <header class="page-hero">
 	<div class="wrap">
 		<?php easylot_the_crumbs( $trail ); ?>
-		<span class="eyebrow">Who we are</span>
-		<h1>We own the land, so we can <span class="accent">finance it ourselves</span></h1>
+		<span class="eyebrow">Our mission</span>
+		<h1>Affordable land in Cayman, <span class="accent">by owner</span></h1>
 		<p class="lede">
-			Easy Lot exists because the ordinary route to owning land in the Cayman Islands —
-			find a lot, then ask a bank — stops most people at the second step. We removed the
-			second step.
+			Our mission is to empower individuals and families to achieve their dreams of land
+			ownership within the Cayman Islands.
 		</p>
 		<div class="btn-row" style="margin-top:28px;">
-			<a class="btn btn--primary btn--lg" href="<?php echo esc_url( easylot_url( 'contact' ) ); ?>">
-				Get pre-approved free <?php easylot_the_icon( 'arrow' ); ?>
+			<a class="btn btn--primary btn--lg" href="<?php echo esc_url( easylot_url( 'developments' ) ); ?>">
+				Explore developments <?php easylot_the_icon( 'arrow' ); ?>
 			</a>
-			<a class="btn btn--ghost btn--lg" href="<?php echo esc_url( easylot_url( 'how' ) ); ?>">How it works</a>
+			<a class="btn btn--ghost btn--lg" href="<?php echo esc_url( easylot_url( 'how' ) ); ?>">How the financing works</a>
 		</div>
 	</div>
 </header>
 
-<!-- ============================================================ THE FIGURES -->
+<!-- ============================================================ FIGURES -->
 <section class="trust">
 	<div class="wrap">
 		<div class="trust__grid">
-			<div class="trust__cell"><b>0</b><span>Banks involved</span></div>
-			<div class="trust__cell"><b>5<span class="u">%</span></b><span>Minimum down</span></div>
-			<div class="trust__cell"><b>4</b><span>Documents needed</span></div>
+			<div class="trust__cell"><b>2023</b><span>Founded</span></div>
+			<div class="trust__cell"><b>100<span class="u">%</span></b><span>Owner financed</span></div>
+			<div class="trust__cell"><b>Decades</b><span>Of local experience</span></div>
 			<div class="trust__cell"><b>3</b><span>Islands served</span></div>
 		</div>
 	</div>
 </section>
 
-<?php /* The page has its own words for this; only fall back to
-         ours when it does not. */ ?>
-<?php if ( ! $has_body ) : ?>
-<!-- ============================================================ THE STORY -->
+<!-- ============================================================ BACKING -->
 <section class="section section--paper">
 	<div class="wrap hero__grid">
 		<div>
-			<span class="eyebrow">Why we do it this way</span>
-			<h2>The problem was never the price</h2>
-			<p>
-				Land in the Cayman Islands is not, on the whole, unaffordable. A lot at $40,000 is
-				within reach of a great many people living and working here. What is out of reach
-				is the way it is normally financed.
+			<span class="eyebrow">Cayman expertise</span>
+			<h2>Backed by Cayman Development&nbsp;Group</h2>
+			<p class="lede" style="margin-bottom:24px;">
+				Easy Lot is backed by Cayman Development Group, a leader in land development with
+				decades of local experience.
 			</p>
 			<p>
-				Raw, undeveloped land is the hardest thing on these islands to get a mortgage
-				against. Lenders treat it as the riskiest category of property: no building, no
-				rental income, nothing to repossess but the ground itself. So they ask for 30 to
-				40% down, a local credit history, and a full underwriting file — and most people
-				who wanted a lot here stop right there.
+				At Cayman Development Group we believe that every piece of land holds the potential
+				for a brighter tomorrow. It is our hope that clients will not just find a piece of
+				land, but a canvas on which they can create their future.
 			</p>
 			<p>
-				We hold the title to the land we sell. That means we are free to set the terms
-				ourselves: a deposit that starts at 5%, a payment that is fixed for the life of
-				the agreement, and an answer that arrives the same day rather than in six weeks.
+				Whether it is building a home or investing for the long term, our vision is to
+				create a seamless, user-friendly environment driven by innovation. We aim to be a
+				guiding light in the journey toward land ownership, providing a trustworthy partner
+				that empowers clients to take bold steps toward their future.
 			</p>
+			<p>
+				With transparency, integrity and professionalism as our cornerstones, we aim to
+				build lasting relationships built on trust and mutual success.
+			</p>
+
+			<div class="step__meta" style="margin-top:26px;">
+				<?php easylot_the_icon( 'check-c' ); ?> Founded 2023 by Tommy Sofield, Director
+			</div>
 		</div>
 
 		<div>
@@ -109,16 +115,33 @@ get_header();
 		</div>
 	</div>
 </section>
-<?php endif; ?>
 
-<?php /* The page has its own words for this; only fall back to
-         ours when it does not. */ ?>
-<?php if ( ! $has_body ) : ?>
+<!-- ============================================================ CORE VALUES -->
+<section class="section section--ink">
+	<div class="wrap">
+		<div class="section-head">
+			<span class="eyebrow">Our core values</span>
+			<h2>The principles behind every project</h2>
+			<p class="lede">The principles that guide every interaction and project at Easy Lot.</p>
+		</div>
+
+		<div class="grid grid-3">
+			<?php foreach ( $values as $val ) : ?>
+				<div class="card reveal">
+					<span class="card__icon"><?php easylot_the_icon( $val['icon'] ); ?></span>
+					<h3><?php echo esc_html( $val['name'] ); ?></h3>
+					<p><?php echo esc_html( $val['text'] ); ?></p>
+				</div>
+			<?php endforeach; ?>
+		</div>
+	</div>
+</section>
+
 <!-- ============================================================ HOW WE WORK -->
 <section class="section section--white">
 	<div class="wrap">
 		<div class="section-head">
-			<span class="eyebrow">How we work</span>
+			<span class="eyebrow">What that means in practice</span>
 			<h2>Three things we do differently</h2>
 		</div>
 		<div class="grid grid-3">
@@ -140,60 +163,6 @@ get_header();
 		</div>
 	</div>
 </section>
-<?php endif; ?>
-
-<?php /* The page has its own words for this; only fall back to
-         ours when it does not. */ ?>
-<?php if ( ! $has_body ) : ?>
-<!-- ============================================================ WHAT WE ARE NOT -->
-<section class="section section--ink">
-	<div class="wrap">
-		<div class="section-head">
-			<span class="eyebrow">Straight about it</span>
-			<h2>What we are not</h2>
-			<p class="lede">
-				Owner financing suits a lot of people, and it does not suit everybody. Being clear
-				about that up front saves everyone time.
-			</p>
-		</div>
-
-		<div class="grid grid-2">
-			<div class="card reveal">
-				<h3>We are not a bank</h3>
-				<p>We finance the lots we own. We cannot lend against a property somebody else is selling, and we do not do construction finance — building starts once the title is in your name.</p>
-			</div>
-			<div class="card reveal">
-				<h3>We are not a brokerage</h3>
-				<p>We sell our own developments rather than listing other people&rsquo;s property, which is exactly why we can set the terms. If you want a house on the market today, an agent is the right call.</p>
-			</div>
-			<div class="card reveal">
-				<h3>We are not free money</h3>
-				<p>Financing has a cost, and ours is written into the agreement in plain figures. Paying cash is cheaper — it is just out of reach for most people, which is the whole point.</p>
-			</div>
-			<div class="card reveal">
-				<h3>We are not lawyers or tax advisers</h3>
-				<p>We explain our process, not your legal or tax position. Stamp duty is payable to the government on transfer, and you are free to instruct your own attorney at any stage.</p>
-			</div>
-		</div>
-	</div>
-</section>
-<?php endif; ?>
-
-<!-- ============================================================ PAGE BODY -->
-<?php if ( $has_body ) : ?>
-	<section class="section section--paper">
-		<div class="wrap">
-			<?php
-			while ( have_posts() ) {
-				the_post();
-				?>
-				<div class="entry-content"><?php easylot_the_clean_content(); ?></div>
-				<?php
-			}
-			?>
-		</div>
-	</section>
-<?php endif; ?>
 
 <!-- ============================================================ WHERE -->
 <section class="section section--paper">
@@ -242,15 +211,41 @@ get_header();
 	</div>
 </section>
 
+<!-- ============================================================ PAGE BODY -->
+<?php
+/*
+ * The mission, the backing and the values above ARE the page's real content,
+ * carried over from the old theme. A page body only prints when somebody has
+ * deliberately built one in Elementor — otherwise it would repeat all of this
+ * in markup whose stylesheet no longer exists.
+ */
+if ( easylot_has_content() && easylot_is_built_with_elementor( get_the_ID() ) ) :
+	?>
+	<section class="section section--white">
+		<div class="wrap">
+			<?php
+			while ( have_posts() ) {
+				the_post();
+				?>
+				<div class="entry-content entry-content--full"><?php the_content(); ?></div>
+				<?php
+			}
+			?>
+		</div>
+	</section>
+	<?php
+endif;
+?>
+
 <!-- ============================================================ CTA -->
 <section class="section section--tight section--paper">
 	<div class="wrap">
 		<div class="cta-band reveal">
-			<h2>Come and see the land</h2>
-			<p>Book a site visit, or start with a free pre-approval so you know your range before you walk a lot.</p>
+			<h2>Ready to start your legacy?</h2>
+			<p>Explore our developments and find the perfect canvas for your future home in paradise.</p>
 			<div class="btn-row btn-row--center" style="margin-top:30px;">
-				<a class="btn btn--light btn--lg" href="<?php echo esc_url( easylot_url( 'contact' ) ); ?>">Get pre-approved</a>
-				<a class="btn btn--ghost btn--lg" href="<?php echo esc_url( easylot_url( 'directions' ) ); ?>">Find our office</a>
+				<a class="btn btn--light btn--lg" href="<?php echo esc_url( easylot_url( 'developments' ) ); ?>">Explore developments</a>
+				<a class="btn btn--ghost btn--lg" href="<?php echo esc_url( easylot_url( 'contact' ) ); ?>">Get pre-approved</a>
 			</div>
 		</div>
 	</div>

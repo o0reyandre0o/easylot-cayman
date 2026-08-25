@@ -37,11 +37,12 @@ get_header();
 <header class="page-hero">
 	<div class="wrap">
 		<?php easylot_the_crumbs( $trail ); ?>
-		<span class="eyebrow">Free · no obligation · no credit mark</span>
-		<h1>Find out what you <span class="accent">qualify for</span></h1>
+		<span class="eyebrow">Get in touch</span>
+		<h1>Secure your piece of <span class="accent">paradise</span></h1>
 		<p class="lede">
-			Pre-approval takes about five minutes and needs four documents. It is not a credit
-			application, so it leaves no mark, and most people hear back the same business day.
+			We are here to help you secure your piece of paradise. Whether you have questions
+			about financing or want to schedule a site visit, our team is ready — and pre-approval
+			takes about five minutes, leaves no mark on your credit and commits you to nothing.
 		</p>
 	</div>
 </header>
@@ -52,7 +53,7 @@ get_header();
 		<div class="grid grid-2" style="align-items:start;gap:clamp(30px,5vw,52px);">
 
 			<div>
-				<?php if ( $has_body ) : ?>
+				<?php if ( $has_body && easylot_is_built_with_elementor( get_the_ID() ) ) : ?>
 					<div class="entry-content entry-content--full" style="font-size:1rem;">
 						<?php
 						while ( have_posts() ) {

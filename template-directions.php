@@ -2,27 +2,45 @@
 /**
  * Template Name: Directions
  *
- * Content first: the page's own words are the body, cleaned of the old theme's
- * dead utility classes. The office details, the map and the developments always
- * render; the written advice below is a fallback for when the page is empty.
+ * The route is Easy Lot's own, carried over from the previous theme's
+ * template-directions.php: Health City is the landmark, then High Rock Drive.
+ * Edit it in easylot_route() in functions.php, not here.
  *
  * @package EasyLotCayman
  */
 
-$c    = easylot_contact();
-$devs = array_slice( easylot_developments(), 0, 3 );
-$has_body = easylot_has_content();
+$c     = easylot_contact();
+$route = easylot_route();
 
-$GLOBALS['easylot_seo_title']       = 'Find the Easy Lot Office in George Town, Grand Cayman';
-$GLOBALS['easylot_seo_description'] = 'Directions to the Easy Lot office at 207 Sparky Dr. Suite 6, George Town, Grand Cayman. Call or WhatsApp us to arrange a site visit to any of our owner-financed developments.';
+$GLOBALS['easylot_seo_title']       = 'Visit Easy Lot Cayman | Directions to Our Developments';
+$GLOBALS['easylot_seo_description'] = 'Get precise directions to our land developments in Grand Cayman and Little Cayman. Located near landmarks like Health City for easy access.';
 
 $trail = array(
 	'Home'       => home_url( '/' ),
 	'Directions' => easylot_url( 'directions' ),
 );
 
-add_filter( 'easylot_schema_graph', function ( $graph ) use ( $trail ) {
+add_filter( 'easylot_schema_graph', function ( $graph ) use ( $trail, $route ) {
 	$graph[] = easylot_breadcrumbs( $trail );
+
+	$steps = array();
+	$i     = 1;
+	foreach ( $route as $step ) {
+		$steps[] = array(
+			'@type'    => 'HowToStep',
+			'position' => $i++,
+			'name'     => $step['name'],
+			'text'     => $step['text'],
+		);
+	}
+	$graph[] = array(
+		'@type'       => 'HowTo',
+		'@id'         => easylot_url( 'directions' ) . '#howto',
+		'name'        => 'How to find Easy Lot developments',
+		'description' => 'Driving directions to the Easy Lot developments on High Rock Drive, East End, Grand Cayman, using Health City as the landmark.',
+		'step'        => $steps,
+	);
+
 	return $graph;
 } );
 
@@ -32,15 +50,14 @@ get_header();
 <header class="page-hero">
 	<div class="wrap">
 		<?php easylot_the_crumbs( $trail ); ?>
-		<span class="eyebrow">Come and see us</span>
-		<h1>Find our office in <span class="accent">George Town</span></h1>
+		<span class="eyebrow">On the way to paradise</span>
+		<h1>Directions to <span class="accent">paradise</span></h1>
 		<p class="lede">
-			We are on Sparky Drive in George Town, Grand Cayman. Call ahead so somebody is free
-			when you arrive — and if you would rather see the land than the office, say so and we
-			will drive out with you.
+			Finding Easy Lot is the first step toward your investment. Below are the directions to
+			our main developments, strategically located near landmarks like Health City.
 		</p>
 		<div class="btn-row" style="margin-top:28px;">
-			<a class="btn btn--primary btn--lg" href="https://www.google.com/maps/search/?api=1&amp;query=Easy+Lot+207+Sparky+Drive+George+Town+Grand+Cayman" target="_blank" rel="noopener">
+			<a class="btn btn--primary btn--lg" href="https://www.google.com/maps/search/?api=1&amp;query=High+Rock+Drive+East+End+Grand+Cayman" target="_blank" rel="noopener">
 				<?php easylot_the_icon( 'pin' ); ?> Open in Google Maps
 			</a>
 			<a class="btn btn--ghost btn--lg" href="tel:<?php echo esc_attr( $c['phone_link'] ); ?>">
@@ -50,16 +67,46 @@ get_header();
 	</div>
 </header>
 
-<!-- ============================================================ DETAILS + MAP -->
+<!-- ============================================================ THE ROUTE -->
 <section class="section section--paper">
 	<div class="wrap">
-		<div class="grid grid-2" style="align-items:start;gap:clamp(30px,5vw,56px);">
+		<div class="section-head">
+			<span class="eyebrow">The route</span>
+			<h2>Three turns from Health City</h2>
+		</div>
 
-			<div>
-				<div class="section-head" style="margin-bottom:28px;padding-bottom:22px;">
-					<span class="eyebrow">The office</span>
-					<h2 style="font-size:clamp(1.6rem,3vw,2.2rem);">How to reach us</h2>
+		<div class="rail">
+			<?php foreach ( $route as $step ) : ?>
+				<div class="rail__step reveal">
+					<span class="rail__n"><?php echo esc_html( $step['n'] ); ?></span>
+					<h3><?php echo esc_html( $step['name'] ); ?></h3>
+					<p><?php echo esc_html( $step['text'] ); ?></p>
 				</div>
+			<?php endforeach; ?>
+		</div>
+
+		<div class="map-embed" style="margin-top:36px;aspect-ratio:16/9;">
+			<iframe
+				title="Map showing High Rock Drive, East End, Grand Cayman"
+				src="https://www.google.com/maps?q=High+Rock+Drive,+East+End,+Grand+Cayman&amp;output=embed"
+				loading="lazy"
+				referrerpolicy="no-referrer-when-downgrade"
+				allowfullscreen></iframe>
+		</div>
+	</div>
+</section>
+
+<!-- ============================================================ THE OFFICE -->
+<section class="section section--ink">
+	<div class="wrap">
+		<div class="grid grid-2" style="align-items:start;gap:clamp(30px,5vw,56px);">
+			<div>
+				<span class="eyebrow">The office</span>
+				<h2 style="font-size:clamp(1.7rem,3.2vw,2.4rem);">Or come and see us in George&nbsp;Town</h2>
+				<p class="lede" style="margin-bottom:28px;">
+					Call ahead so somebody is free when you arrive. If you would rather see the land
+					than the office, say so and we will drive out with you.
+				</p>
 
 				<div class="info-list">
 					<div class="info-list__row">
@@ -67,16 +114,12 @@ get_header();
 						<div class="info-list__v">
 							<?php echo esc_html( $c['street'] ); ?><br>
 							<?php echo esc_html( $c['locality'] ); ?>, <?php echo esc_html( $c['region'] ); ?><br>
-							Cayman Islands
+							<?php echo esc_html( $c['postcode'] ); ?>, Cayman Islands
 						</div>
 					</div>
 					<div class="info-list__row">
 						<div class="info-list__k">Phone</div>
 						<div class="info-list__v"><a href="tel:<?php echo esc_attr( $c['phone_link'] ); ?>"><?php echo esc_html( $c['phone'] ); ?></a></div>
-					</div>
-					<div class="info-list__row">
-						<div class="info-list__k">WhatsApp</div>
-						<div class="info-list__v"><a href="<?php echo esc_url( $c['whatsapp'] ); ?>" target="_blank" rel="noopener">Message us</a></div>
 					</div>
 					<div class="info-list__row">
 						<div class="info-list__k">Email</div>
@@ -86,13 +129,6 @@ get_header();
 						<div class="info-list__k">Visits</div>
 						<div class="info-list__v">By appointment, so you are not waiting. Call or message and we will find a time.</div>
 					</div>
-				</div>
-
-				<div class="btn-row" style="margin-top:30px;">
-					<a class="btn btn--ink" href="<?php echo esc_url( easylot_url( 'contact' ) ); ?>">Book a site visit</a>
-					<a class="btn btn--ghost" href="<?php echo esc_url( $c['whatsapp'] ); ?>" target="_blank" rel="noopener">
-						<?php easylot_the_icon( 'whatsapp' ); ?> WhatsApp
-					</a>
 				</div>
 			</div>
 
@@ -109,95 +145,37 @@ get_header();
 </section>
 
 <!-- ============================================================ PAGE BODY -->
-<?php if ( $has_body ) : ?>
-	<section class="section section--paper">
+<?php
+if ( easylot_has_content() && easylot_is_built_with_elementor( get_the_ID() ) ) :
+	?>
+	<section class="section section--white">
 		<div class="wrap">
 			<?php
 			while ( have_posts() ) {
 				the_post();
 				?>
-				<div class="entry-content"><?php easylot_the_clean_content(); ?></div>
+				<div class="entry-content entry-content--full"><?php the_content(); ?></div>
 				<?php
 			}
 			?>
 		</div>
 	</section>
-<?php endif; ?>
-
-<!-- ============================================================ SEEING THE LAND -->
-<section class="section section--ink">
-	<div class="wrap">
-		<div class="section-head">
-			<span class="eyebrow">Better than the office</span>
-			<h2>Come and stand on the land</h2>
-			<p class="lede">
-				A lot map tells you the size and the price. Standing on the parcel tells you
-				everything else. We will meet you at the development, or collect you from the
-				office and drive out together.
-			</p>
-		</div>
-
-		<div class="grid grid-3">
-			<?php foreach ( $devs as $d ) : ?>
-				<div class="card reveal">
-					<span class="card__icon"><?php easylot_the_icon( 'pin' ); ?></span>
-					<h3><?php echo esc_html( $d['name'] ); ?></h3>
-					<p><?php echo esc_html( $d['island'] ); ?>. <?php echo esc_html( $d['blurb'] ); ?></p>
-					<a class="btn btn--ghost" style="margin-top:20px;" href="<?php echo esc_url( $d['link'] ); ?>">
-						See the lots <?php easylot_the_icon( 'arrow' ); ?>
-					</a>
-				</div>
-			<?php endforeach; ?>
-		</div>
-
-		<p class="lede" style="margin-top:32px;font-size:.95rem;">
-			Elena Estates is on Little Cayman, so that one takes a short flight — tell us and we
-			will help you plan the trip around it.
-		</p>
-	</div>
-</section>
-
-<?php /* The page has its own words for this; only fall back to
-         ours when it does not. */ ?>
-<?php if ( ! $has_body ) : ?>
-<!-- ============================================================ BEFORE YOU COME -->
-<section class="section section--white">
-	<div class="wrap">
-		<div class="section-head">
-			<span class="eyebrow">Worth doing first</span>
-			<h2>Two things that make the visit useful</h2>
-		</div>
-
-		<div class="grid grid-2">
-			<div class="card reveal">
-				<span class="card__icon"><?php easylot_the_icon( 'clock' ); ?></span>
-				<h3>Get pre-approved before you come</h3>
-				<p>Five minutes online tells you your price range and monthly payment. Walking a development already knowing which lots are within reach is a completely different visit — and it costs nothing.</p>
-				<a class="btn btn--ghost" style="margin-top:20px;" href="<?php echo esc_url( easylot_url( 'contact' ) ); ?>">Start pre-approval</a>
-			</div>
-			<div class="card reveal">
-				<span class="card__icon"><?php easylot_the_icon( 'doc' ); ?></span>
-				<h3>Bring the four documents</h3>
-				<p>Passport, driver&rsquo;s licence or second photo ID, a job letter, and a recent utility bill. Photos on your phone are fine. With those in hand we can move straight from the visit to an offer.</p>
-				<a class="btn btn--ghost" style="margin-top:20px;" href="<?php echo esc_url( easylot_url( 'how' ) ); ?>">The full process</a>
-			</div>
-		</div>
-	</div>
-</section>
-<?php endif; ?>
+	<?php
+endif;
+?>
 
 <!-- ============================================================ CTA -->
 <section class="section section--tight section--paper-3">
 	<div class="wrap">
 		<div class="cta-band reveal">
-			<h2>Let us know you are coming</h2>
-			<p>A quick message means the right person is free when you arrive, and we can have the lots you are interested in ready to walk.</p>
+			<h2>Lost along the way?</h2>
+			<p>Give us a call or send a WhatsApp message, and our team will guide you in.</p>
 			<div class="btn-row btn-row--center" style="margin-top:30px;">
-				<a class="btn btn--light btn--lg" href="<?php echo esc_url( $c['whatsapp'] ); ?>" target="_blank" rel="noopener">
-					<?php easylot_the_icon( 'whatsapp' ); ?> Message us on WhatsApp
+				<a class="btn btn--light btn--lg" href="tel:<?php echo esc_attr( $c['phone_link'] ); ?>">
+					<?php easylot_the_icon( 'phone' ); ?> <?php echo esc_html( $c['phone'] ); ?>
 				</a>
-				<a class="btn btn--ghost btn--lg" href="tel:<?php echo esc_attr( $c['phone_link'] ); ?>">
-					<?php echo esc_html( $c['phone'] ); ?>
+				<a class="btn btn--ghost btn--lg" href="<?php echo esc_url( $c['whatsapp'] ); ?>" target="_blank" rel="noopener">
+					<?php easylot_the_icon( 'whatsapp' ); ?> WhatsApp us
 				</a>
 			</div>
 		</div>

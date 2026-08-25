@@ -16,7 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'EASYLOT_VERSION', '1.3.0' );
+define( 'EASYLOT_VERSION', '1.4.0' );
 
 require_once get_template_directory() . '/nav.php';
 require_once get_template_directory() . '/site-footer.php';
@@ -103,7 +103,8 @@ function easylot_contact() {
 		'phone'        => '+1 345 936 2660',
 		'phone_link'   => '+13459362660',
 		'whatsapp'     => 'https://wa.me/13459362660',
-		'email'        => 'info@easylot.ky',
+		'email'        => 'admin@easylot.ky',
+		'postcode'     => 'KY1-1205',
 		'street'       => '207 Sparky Dr. Suite 6',
 		'locality'     => 'George Town',
 		'region'       => 'Grand Cayman',
@@ -178,6 +179,46 @@ function easylot_developments() {
 			'blurb'  => 'Our Grand Cayman coastal development. Open the page for the current lot map and what is still available.',
 			'facts'  => array( 'Grand Cayman', 'Owner financed' ),
 			'from'   => '',
+		),
+	);
+}
+
+/**
+ * The six core values, and who stands behind Easy Lot.
+ *
+ * Both carried over from the previous theme's template-about-us.php.
+ */
+function easylot_values() {
+	return array(
+		array( 'icon' => 'shield', 'name' => 'Safety',     'text' => 'Prioritising the well-being and security of individuals and environments in every development.' ),
+		array( 'icon' => 'people', 'name' => 'People',     'text' => 'Building customer relationships through trust, transparency and understanding. Putting your needs at the forefront.' ),
+		array( 'icon' => 'check-c', 'name' => 'Integrity', 'text' => 'Upholding honesty, ethics and moral principles in all actions and decisions. Doing more than what is expected.' ),
+		array( 'icon' => 'globe',  'name' => 'Respect',    'text' => 'Treating others with consideration and empathy, and valuing diverse perspectives in our community.' ),
+		array( 'icon' => 'spark',  'name' => 'Innovation', 'text' => 'Embracing creativity, adapting to change, and seeking new solutions to simplify land ownership.' ),
+		array( 'icon' => 'chart',  'name' => 'Teamwork',   'text' => 'Combining individual strengths to develop exceptional results and lasting developments.' ),
+	);
+}
+
+/**
+ * Directions to the High Rock developments, from the old theme's
+ * template-directions.php. Health City is the landmark everybody knows.
+ */
+function easylot_route() {
+	return array(
+		array(
+			'n'    => '01',
+			'name' => 'The route',
+			'text' => 'Coming from town, head toward Health City. If you are not familiar with Health City, put it into Google Maps and the directions will lead you to it from anywhere on the island.',
+		),
+		array(
+			'n'    => '02',
+			'name' => 'Turn onto High Rock',
+			'text' => 'After passing Health City, the next left you can make is High Rock Drive. You will see our sign on the main road. Turn left here.',
+		),
+		array(
+			'n'    => '03',
+			'name' => 'Arrival',
+			'text' => 'You will see a set of new townhomes on the corner just behind our sign. Continue down High Rock Drive for half a mile and look for our second sign on the right. That marks the beginning of the development, which is on the right side of High Rock Drive if you are coming from the ocean.',
 		),
 	);
 }
@@ -556,16 +597,43 @@ function easylot_the_clean_content() {
 }
 
 /**
- * The team, for template-team.php.
+ * The team.
  *
- * Deliberately empty: the theme will not invent names or photographs. Fill this
- * in and the page renders a card grid; leave it and the page renders the page's
- * own content, or its designed fallback if that is empty too.
+ * Carried over verbatim from the previous theme's template-team.php, which is
+ * where this copy lived — the pages themselves were empty, which is why the
+ * information looked lost when the theme changed.
  *
- * Each entry: array( 'name' => '', 'role' => '', 'photo' => '' )
+ * Each entry: array( 'name', 'role', 'photo', 'bio' )
  */
 function easylot_team() {
-	return apply_filters( 'easylot_team', array() );
+	$up = 'https://easylot.ky/wp-content/uploads/2023/08/';
+
+	return apply_filters( 'easylot_team', array(
+		array(
+			'name'  => 'Tommy Sofield',
+			'role'  => 'Director &amp; Project Manager',
+			'photo' => $up . 'PHOTO-2023-08-27-12-48-09-e1693489329947.jpg',
+			'bio'   => 'Drives strategic oversight and ensures every facet of development aligns with perfection.',
+		),
+		array(
+			'name'  => 'Kim Andrada',
+			'role'  => 'Admin &amp; Finance Coordinator',
+			'photo' => $up . 'Easy-Lot-Kim-Andrada-e1693489960525-1024x1024.jpeg',
+			'bio'   => 'Essential oversight of financial activities and government closing processes, ensuring seamless operations.',
+		),
+		array(
+			'name'  => 'Patrick Brown',
+			'role'  => 'Site Operations Support',
+			'photo' => $up . 'Richard-Easy-Lot.jpg',
+			'bio'   => 'The backbone of our operations, ensuring every project phase runs smoothly on the ground.',
+		),
+		array(
+			'name'  => 'Bentley "The Dog"',
+			'role'  => 'Chief Morale Officer',
+			'photo' => $up . 'Bentley-The-Dog.jpg',
+			'bio'   => 'Bringing joy and stress relief to our team and clients alike with his gentle nature. Fun fact: loves water jumps.',
+		),
+	) );
 }
 
 function easylot_testimonials() {
@@ -699,6 +767,7 @@ function easylot_icon( $name, $class = '' ) {
 		'star'      => '<path d="m12 3.5 2.6 5.4 5.9.8-4.3 4.2 1 5.9-5.2-2.8-5.2 2.8 1-5.9L3.5 9.7l5.9-.8z" fill="currentColor" stroke="none"/>',
 		'spark'     => '<path d="M12 3v4M12 17v4M3 12h4M17 12h4M6 6l2.5 2.5M15.5 15.5 18 18M18 6l-2.5 2.5M8.5 15.5 6 18"/>',
 		'chart'     => '<path d="M4 20V4M4 20h16"/><path d="m7.5 15 3.5-4 3 2.6L19 7"/>',
+		'people'    => '<circle cx="9" cy="8" r="3.2"/><path d="M3.5 19a5.5 5.5 0 0 1 11 0"/><path d="M16 5.6a3.2 3.2 0 0 1 0 6.3M17.5 14.4a5.5 5.5 0 0 1 3 4.6"/>',
 		'globe'     => '<circle cx="12" cy="12" r="9"/><path d="M3.5 9h17M3.5 15h17M12 3a15 15 0 0 1 0 18 15 15 0 0 1 0-18Z"/>',
 		'facebook'  => '<path d="M14 8.5V7a1.5 1.5 0 0 1 1.5-1.5H17V3h-2.2A4 4 0 0 0 11 7v1.5H9V11h2v10h3V11h2.2l.4-2.5z" fill="currentColor" stroke="none"/>',
 		'instagram' => '<rect x="3.5" y="3.5" width="17" height="17" rx="5"/><circle cx="12" cy="12" r="3.8"/><circle cx="17" cy="7" r="1.1" fill="currentColor" stroke="none"/>',
