@@ -16,7 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'EASYLOT_VERSION', '1.5.2' );
+define( 'EASYLOT_VERSION', '1.5.3' );
 
 require_once get_template_directory() . '/nav.php';
 require_once get_template_directory() . '/site-footer.php';
@@ -1338,9 +1338,26 @@ function easylot_llms_txt() {
 	if ( ! file_exists( $file ) ) {
 		return;
 	}
+
+	/*
+	 * /llms.txt matches no post, so WordPress has already flagged the request
+	 * as a 404 by the time template_redirect runs. Echoing the file here still
+	 * shows the right text in a browser — but the response goes out as HTTP
+	 * 404, and a crawler will simply discard it. Since being read by crawlers
+	 * is the entire point of this file, clear the flag and send a real 200.
+	 */
+	global $wp_query;
+	if ( $wp_query instanceof WP_Query ) {
+		$wp_query->is_404 = false;
+	}
+	status_header( 200 );
+
 	header( 'Content-Type: text/plain; charset=utf-8' );
 	header( 'X-Robots-Tag: all' );
-	echo file_get_contents( $file ); // phpcs:ignore
+	header( 'Cache-Control: public, max-age=3600' );
+	header( 'Content-Length: ' . filesize( $file ) );
+
+	readfile( $file ); // phpcs:ignore
 	exit;
 }
 add_action( 'template_redirect', 'easylot_llms_txt', 1 );
