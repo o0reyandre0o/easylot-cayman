@@ -4,7 +4,7 @@ Theme URI: https://github.com/o0reyandre0o/easylot-cayman
 Author: Toc Toc Marketing
 Author URI: https://toctoc.ky/
 Description: Editorial WordPress theme for Easy Lot Cayman — teaches visitors how to buy land in the Cayman Islands with Direct Owner Financing. Hand-written CSS (no CDN framework), SEO/AEO structured data, self-hosted video guides and a floating video player.
-Version: 1.0.2
+Version: 1.0.3
 Requires at least: 6.0
 Tested up to: 6.8
 Requires PHP: 7.4
@@ -601,7 +601,7 @@ body.admin-bar .site-nav { top: 32px; }
 /* Figure block clamped to the corner of the media. */
 .hero__badge {
 	position: absolute;
-	left: -1px; bottom: -1px;
+	right: -1px; top: -1px;
 	z-index: 3;
 	background: var(--red);
 	color: #fff;
@@ -621,7 +621,7 @@ body.admin-bar .site-nav { top: 32px; }
 	font-size: .62rem; font-weight: 800; letter-spacing: .22em;
 	text-transform: uppercase; color: rgba(255, 255, 255, .84);
 }
-@media (max-width: 1000px) { .hero__badge { left: 0; } }
+@media (max-width: 1000px) { .hero__badge { right: 0; } }
 
 /* ==========================================================================
    8. Figure ledger — the four numbers under the hero
@@ -665,13 +665,15 @@ body.admin-bar .site-nav { top: 32px; }
 }
 /* Units and words inside a figure step down, so the numeral stays dominant. */
 .trust__cell b .u {
+	display: inline;
+	margin: 0;
 	font-size: .44em;
 	font-weight: 700;
 	letter-spacing: .01em;
 	margin-left: .14em;
 	color: var(--d-mute);
 }
-.trust__cell span {
+.trust__cell > span {
 	display: block;
 	margin-top: 14px;
 	font-size: .66rem;
