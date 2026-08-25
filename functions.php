@@ -533,7 +533,7 @@ function easylot_logo_img( $height = 34 ) {
 		}
 	}
 
-	$fallback = 'this.outerHTML=&quot;<span class=\&quot;logo-text\&quot;>EASY<em>LOT</em></span>&quot;';
+	$fallback = "this.outerHTML='<span class=&quot;logo-text&quot;>EASY<em>LOT</em></span>'";
 
 	printf(
 		'<img src="%s" alt="%s" style="height:%dpx" onerror="%s">',

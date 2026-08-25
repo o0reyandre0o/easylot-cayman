@@ -319,7 +319,7 @@
 		var downOut = $('#calc-down-val', root);
 		var termOut = $('#calc-term-val', root);
 
-		var monthly = $('#calc-monthly', root);
+		var monthly = $('#calc-monthly-val', root) || $('#calc-monthly', root);
 		var depositOut = $('#calc-deposit', root);
 		var financedOut = $('#calc-financed', root);
 		var totalOut = $('#calc-total', root);

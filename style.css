@@ -4,7 +4,7 @@ Theme URI: https://github.com/o0reyandre0o/easylot-cayman
 Author: Toc Toc Marketing
 Author URI: https://toctoc.ky/
 Description: Editorial WordPress theme for Easy Lot Cayman — teaches visitors how to buy land in the Cayman Islands with Direct Owner Financing. Hand-written CSS (no CDN framework), SEO/AEO structured data, self-hosted video guides and a floating video player.
-Version: 1.0.1
+Version: 1.0.2
 Requires at least: 6.0
 Tested up to: 6.8
 Requires PHP: 7.4
@@ -335,6 +335,17 @@ hr { border: 0; border-top: 1px solid var(--rule); margin: 3rem 0; }
 /* The brand mark is dark-on-transparent, so it is inverted on the dark bar. */
 .site-nav__logo img { height: 34px; width: auto; object-fit: contain; filter: invert(1) brightness(1.9); }
 
+/* Typographic mark, used when no logo image can load (see easylot_logo_img). */
+.logo-text {
+	font-family: var(--serif);
+	font-weight: 800;
+	font-size: 1.45rem;
+	letter-spacing: -.04em;
+	color: var(--d-text);
+	white-space: nowrap;
+}
+.logo-text em { font-style: normal; color: var(--red); }
+
 .site-nav__links { display: flex; align-items: center; gap: 2px; }
 
 .navlink {
@@ -509,14 +520,22 @@ body.is-locked { overflow: hidden; }
    7. Hero — dark, asymmetric
    ========================================================================== */
 
-.site-main { padding-top: var(--nav-h); }
+/* The nav is fixed. Dark openers (.hero, .page-hero) extend up underneath it
+   so ink meets ink with no cream seam; a template that starts with a light
+   section (the 404) is pushed below the bar instead. */
+.site-main { padding-top: 0; }
+.site-main > .section:first-child { margin-top: var(--nav-h); }
+
+/* Keep the fixed bar below the WP admin bar when logged in. */
+body.admin-bar .site-nav { top: 32px; }
+@media (max-width: 782px) { body.admin-bar .site-nav { top: 46px; } }
 
 .hero {
 	position: relative;
 	overflow: hidden;
 	background: var(--ink);
 	color: var(--d-text);
-	padding: clamp(60px, 8vw, 118px) 0 clamp(56px, 7vw, 104px);
+	padding: calc(var(--nav-h) + clamp(46px, 6vw, 92px)) 0 clamp(56px, 7vw, 104px);
 }
 /* A faint printed grid, so the dark field is not a flat slab. */
 .hero::before {
@@ -1312,7 +1331,7 @@ input[type="range"]::-moz-range-thumb {
 	overflow: hidden;
 	background: var(--ink);
 	color: var(--d-text);
-	padding: clamp(46px, 6vw, 92px) 0 clamp(40px, 5vw, 72px);
+	padding: calc(var(--nav-h) + clamp(36px, 5vw, 72px)) 0 clamp(40px, 5vw, 72px);
 }
 .page-hero::after {
 	content: "";
@@ -1515,7 +1534,8 @@ input[type="range"]::-moz-range-thumb {
 @media (max-width: 1000px) { .site-footer__grid { grid-template-columns: 1fr 1fr; } }
 @media (max-width: 560px) { .site-footer__grid { grid-template-columns: 1fr; gap: 32px; } }
 
-.site-footer img.logo { height: 32px; width: auto; margin-bottom: 22px; filter: invert(1) brightness(1.9); }
+.site-footer__logo { display: block; margin-bottom: 22px; }
+.site-footer__logo img { height: 32px; width: auto; filter: invert(1) brightness(1.9); }
 .site-footer p { font-size: .91rem; color: var(--d-mute); }
 
 .foot-label {

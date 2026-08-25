@@ -370,7 +370,7 @@ get_header();
 
 			<div class="calc__out">
 				<span class="eyebrow">Estimated monthly payment</span>
-				<div class="calc__figure" id="calc-monthly">$0<small>/mo</small></div>
+				<div class="calc__figure" id="calc-monthly"><span id="calc-monthly-val">$0</span><small>/mo</small></div>
 
 				<div class="calc__rows">
 					<div class="calc__row"><span>Down payment today</span><b id="calc-deposit">$0</b></div>
