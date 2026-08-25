@@ -1,0 +1,13 @@
+# OS / editor cruft
+.DS_Store
+Thumbs.db
+*.swp
+.idea/
+.vscode/
+
+# Never ship a build of the theme from inside the theme
+*.zip
+
+# Local video sources (encoded files are uploaded to the media library)
+*.mov
+21-source.mp4
