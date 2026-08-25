@@ -315,14 +315,18 @@ hr { border: 0; border-top: 1px solid var(--rule); margin: 3rem 0; }
 	position: fixed;
 	inset: 0 0 auto 0;
 	z-index: 9000;
-	background: rgba(29, 27, 26, .92);
+	background: rgba(255, 248, 245, .92);
 	backdrop-filter: saturate(160%) blur(14px);
 	-webkit-backdrop-filter: saturate(160%) blur(14px);
-	border-bottom: 1px solid var(--d-rule-soft);
-	color: var(--d-text);
-	transition: background-color .3s var(--ease), border-color .3s var(--ease);
+	border-bottom: 1px solid var(--rule-soft);
+	color: var(--ink);
+	transition: background-color .3s var(--ease), border-color .3s var(--ease), box-shadow .3s var(--ease);
 }
-.site-nav.is-stuck { background: rgba(29, 27, 26, .98); border-bottom-color: var(--d-rule); }
+.site-nav.is-stuck {
+	background: rgba(255, 248, 245, .98);
+	border-bottom-color: var(--rule);
+	box-shadow: 0 6px 24px rgba(29, 27, 26, .06);
+}
 
 .site-nav__bar {
 	height: var(--nav-h);
@@ -332,11 +336,10 @@ hr { border: 0; border-top: 1px solid var(--rule); margin: 3rem 0; }
 	gap: 22px;
 }
 
-/* The brand mark is dark-on-transparent, so it is inverted on the dark bar. */
-/* The brand mark is full colour with a dark wordmark. It cannot be recoloured
-   or inverted without wrecking it, so it sits on a paper plaque instead. */
-.site-nav__logo { background: var(--paper); padding: 7px 12px; border-radius: var(--r); display: inline-flex; align-items: center; }
-.site-nav__logo img { height: 30px; width: auto; object-fit: contain; display: block; }
+/* Full-colour mark with a dark wordmark: never recolour or invert it. The bar
+   is paper now, so it needs no plaque here — the footer, still ink, does. */
+.site-nav__logo { display: inline-flex; align-items: center; }
+.site-nav__logo img { height: 34px; width: auto; object-fit: contain; display: block; }
 
 /* Typographic mark, used when no logo image can load (see easylot_logo_img). */
 .logo-text {
@@ -344,7 +347,7 @@ hr { border: 0; border-top: 1px solid var(--rule); margin: 3rem 0; }
 	font-weight: 800;
 	font-size: 1.45rem;
 	letter-spacing: -.04em;
-	color: var(--d-text);
+	color: var(--ink);
 	white-space: nowrap;
 }
 .logo-text em { font-style: normal; color: var(--red); }
@@ -358,7 +361,7 @@ hr { border: 0; border-top: 1px solid var(--rule); margin: 3rem 0; }
 	font-weight: 700;
 	letter-spacing: .13em;
 	text-transform: uppercase;
-	color: var(--d-mute);
+	color: var(--ink-55);
 	display: inline-flex;
 	align-items: center;
 	gap: 6px;
@@ -366,7 +369,7 @@ hr { border: 0; border-top: 1px solid var(--rule); margin: 3rem 0; }
 	cursor: pointer;
 	transition: color .25s var(--ease);
 }
-.navlink:hover, .navlink[aria-current="page"] { color: var(--d-text); }
+.navlink:hover, .navlink[aria-current="page"] { color: var(--ink); }
 .navlink::after {
 	content: "";
 	position: absolute;
