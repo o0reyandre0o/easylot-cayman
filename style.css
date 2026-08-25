@@ -1663,3 +1663,91 @@ input[type="range"]::-moz-range-thumb {
 	.hero, .page-hero, .section--ink, .cta-band, .trust { background: #fff !important; color: #000 !important; }
 	.hero h1, .page-hero h1, .section--ink h2, .trust__cell b { color: #000 !important; }
 }
+
+/* ==========================================================================
+   24. Phones
+   The first pass stacked full-width red blocks (both CTAs, the corner badge,
+   the "Watch first" tag) directly on top of each other, which read as one
+   solid slab of red, and the sections had desktop-tight rhythm. On a phone
+   only ONE element is allowed to be a red fill: the primary CTA.
+   ========================================================================== */
+
+@media (max-width: 700px) {
+
+	:root {
+		--gutter: 20px;
+		--nav-h: 64px;
+	}
+
+	body { font-size: 16px; }
+
+	/* Give every band room to breathe. */
+	.section { padding: 58px 0; }
+	.section--tight { padding: 42px 0; }
+	.section-head { margin-bottom: 34px; padding-bottom: 22px; }
+
+	h1 { font-size: clamp(2rem, 9vw, 2.6rem); line-height: 1.06; }
+	h2 { font-size: clamp(1.6rem, 7vw, 2.1rem); }
+	.lede { font-size: 1rem; line-height: 1.62; }
+
+	.hero { padding: calc(var(--nav-h) + 42px) 0 52px; }
+	.hero__shade {
+		background: linear-gradient(180deg, rgba(21, 19, 18, .74) 0%, rgba(21, 19, 18, .66) 40%, rgba(21, 19, 18, .95) 100%);
+	}
+
+	/* Only the primary CTA is a red fill; the second is an outline. Stacked
+	   full-width they no longer form a block of red. */
+	.hero__cta { flex-direction: column; width: 100%; gap: 10px; }
+	.hero__cta .btn { width: 100%; }
+	.hero__cta .btn--lg { padding: 17px 24px; font-size: .74rem; }
+
+	.hero__watch {
+		margin-top: 30px;
+		width: 100%;
+		padding: 12px 18px 12px 12px;
+		border-radius: 14px;
+	}
+	.hero__watch-play { width: 36px; height: 36px; }
+	.hero__watch-text { font-size: .85rem; }
+
+	/* Buttons elsewhere: full width, one per row, never two reds side by side. */
+	.btn-row { flex-direction: column; align-items: stretch; }
+	.btn-row .btn { width: 100%; }
+	.btn--lg { padding: 16px 24px; font-size: .74rem; }
+
+	/* Figure ledger: 2x2 with real padding instead of four squeezed columns. */
+	.trust__cell { padding: 24px 18px; }
+	.trust__cell::before { margin-bottom: 10px; }
+	.trust__cell b { font-size: 2.1rem; }
+	.trust__cell > span { margin-top: 10px; }
+
+	/* Step rows: number, text, then the video — never a squeezed column. */
+	.steprow { padding: 34px 0; gap: 24px; }
+	.steprow__n { font-size: 2.6rem; margin-bottom: 12px; }
+	.steprow__media .vcard { max-width: 260px; }
+
+	/* Cards and quotes get their own breathing room. */
+	.card, .quote, .lot__body, .toc-chip { padding: 24px 20px; }
+	.doc { padding: 18px 16px; }
+
+	.calc__inputs, .calc__out { padding: 26px 20px; }
+	.calc__figure { font-size: 3rem; }
+
+	.faq__q { padding: 22px 0; font-size: 1.02rem; gap: 16px; }
+	.faq__a > div { padding-bottom: 24px; }
+
+	.cta-band { padding: 38px 22px; }
+
+	/* One red tag per video card is enough; the play button carries the rest. */
+	.vcard__tag { font-size: .55rem; padding: 6px 9px; }
+
+	.site-footer__grid { padding: 48px 0 36px; }
+	.site-footer__bar { justify-content: flex-start; gap: 8px; font-size: .68rem; }
+}
+
+/* The floating player and the WhatsApp bubble are both fixed and both round —
+   keep them off each other on small screens. */
+@media (max-width: 700px) {
+	.wa { width: 48px; height: 48px; right: 14px; bottom: 14px; }
+	.wa svg { width: 25px; height: 25px; }
+}
