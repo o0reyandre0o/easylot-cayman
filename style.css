@@ -1389,12 +1389,13 @@ input[type="range"]::-moz-range-thumb {
 	border-top: 1px solid var(--rule);
 }
 .steprow:first-of-type { border-top: 0; padding-top: 0; }
+.steprow--flip { grid-template-columns: minmax(0, 286px) 1fr; }
 .steprow--flip .steprow__text { order: 2; }
 .steprow--flip .steprow__media { order: 1; }
 .section--ink .steprow { border-color: var(--d-rule); }
 
 @media (max-width: 900px) {
-	.steprow { grid-template-columns: 1fr; }
+	.steprow, .steprow--flip { grid-template-columns: 1fr; }
 	.steprow--flip .steprow__text, .steprow--flip .steprow__media { order: initial; }
 }
 
