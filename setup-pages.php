@@ -128,10 +128,24 @@ function easylot_find_blueprint_page( $entry ) {
  * our template instead of their layout.
  */
 function easylot_is_built_with_elementor( $post_id ) {
-	if ( 'builder' === get_post_meta( $post_id, '_elementor_edit_mode', true ) ) {
-		return true;
+	if ( 'builder' !== get_post_meta( $post_id, '_elementor_edit_mode', true ) ) {
+		return false;
 	}
-	return (bool) get_post_meta( $post_id, '_elementor_data', true );
+
+	/*
+	 * Opening a page in Elementor once and closing it leaves _elementor_data
+	 * set to the string "[]". That is not empty, so a plain boolean cast
+	 * reported every such page as an Elementor build — which is how the old
+	 * page body slipped past the guard and printed underneath the template.
+	 * Decode it and require actual elements.
+	 */
+	$data = get_post_meta( $post_id, '_elementor_data', true );
+
+	if ( is_string( $data ) ) {
+		$data = json_decode( $data, true );
+	}
+
+	return is_array( $data ) && ! empty( $data );
 }
 
 function easylot_provision_pages() {

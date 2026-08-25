@@ -16,7 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'EASYLOT_VERSION', '1.4.0' );
+define( 'EASYLOT_VERSION', '1.4.1' );
 
 require_once get_template_directory() . '/nav.php';
 require_once get_template_directory() . '/site-footer.php';
@@ -629,6 +629,7 @@ function easylot_team() {
 		),
 		array(
 			'name'  => 'Bentley "The Dog"',
+			'badge' => 'Good Boy',
 			'role'  => 'Chief Morale Officer',
 			'photo' => $up . 'Bentley-The-Dog.jpg',
 			'bio'   => 'Bringing joy and stress relief to our team and clients alike with his gentle nature. Fun fact: loves water jumps.',

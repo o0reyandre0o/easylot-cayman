@@ -77,6 +77,9 @@ get_header();
 						     alt="<?php echo esc_attr( wp_strip_all_tags( $person['name'] ) ); ?>"
 						     width="120" height="120" loading="lazy">
 					<?php endif; ?>
+					<?php if ( ! empty( $person['badge'] ) ) : ?>
+						<span class="person__badge"><?php echo esc_html( $person['badge'] ); ?></span>
+					<?php endif; ?>
 					<h2 class="person__name"><?php echo wp_kses_post( $person['name'] ); ?></h2>
 					<?php if ( ! empty( $person['role'] ) ) : ?>
 						<span><?php echo wp_kses_post( $person['role'] ); ?></span>
