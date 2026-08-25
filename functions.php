@@ -16,7 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'EASYLOT_VERSION', '1.0.5' );
+define( 'EASYLOT_VERSION', '1.0.6' );
 
 require_once __DIR__ . '/setup-pages.php';
 
@@ -755,7 +755,9 @@ function easylot_render_video_ui() {
 	</div>
 	<?php
 }
-add_action( 'wp_footer', 'easylot_render_video_ui', 20 );
+// Priority 5: the markup must be in the DOM before wp_print_footer_scripts
+// (priority 20) runs main.js, or the player never finds #miniplayer.
+add_action( 'wp_footer', 'easylot_render_video_ui', 5 );
 
 /* ==========================================================================
  * 8. Structured data

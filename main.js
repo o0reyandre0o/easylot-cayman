@@ -5,7 +5,7 @@
  * still linked and the FAQ answers are still in the HTML (and in the FAQPage
  * schema), they just do not animate.
  */
-(function () {
+function easylotBoot() {
 	'use strict';
 
 	var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -359,4 +359,10 @@
 		});
 		run();
 	}());
-}());
+}
+
+if (document.readyState === 'loading') {
+	document.addEventListener('DOMContentLoaded', easylotBoot);
+} else {
+	easylotBoot();
+}
