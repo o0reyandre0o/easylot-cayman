@@ -65,68 +65,53 @@ get_header();
 ?>
 
 <!-- ============================================================ HERO -->
-<section class="hero">
-	<div class="wrap hero__grid">
-		<div>
-			<span class="eyebrow">Direct owner financing · Cayman Islands</span>
+<?php /* Centered over the site's aerial background video. No side video card
+         and no red corner badge: on phones those stacked into a wall of red
+         blocks. The figures live in the ledger strip right below instead. */ ?>
+<section class="hero hero--center">
+	<div class="hero__bg" aria-hidden="true">
+		<video src="<?php echo esc_url( easylot_hero_video() ); ?>"
+		       poster="<?php echo esc_url( get_template_directory_uri() . '/assets/og/og-home.jpg' ); ?>"
+		       autoplay muted loop playsinline preload="metadata" tabindex="-1"></video>
+		<span class="hero__shade"></span>
+	</div>
 
-			<h1>
-				Land for sale in the Cayman&nbsp;Islands —
-				<span class="accent">without a bank</span>
-			</h1>
+	<div class="wrap hero__inner">
+		<span class="eyebrow eyebrow--center">Direct owner financing · Cayman Islands</span>
 
-			<p class="lede">
-				Easy Lot owns the lots and finances them to you directly. No mortgage application,
-				no loan committee, no 40% deposit. Just a small down payment, a fixed monthly
-				figure, and land in Grand Cayman or Little Cayman with your name going on the title.
-			</p>
+		<h1>
+			Land for sale in the Cayman&nbsp;Islands —
+			<span class="accent">without a bank</span>
+		</h1>
 
-			<ul class="hero__points">
-				<li><?php easylot_the_icon( 'check-c' ); ?> <span><strong>Down payments from 5%</strong> — about $2,000 on a $40,000 lot</span></li>
-				<li><?php easylot_the_icon( 'check-c' ); ?> <span><strong>Fixed monthly payments</strong> that typically start near $400</span></li>
-				<li><?php easylot_the_icon( 'check-c' ); ?> <span><strong>Pre-approval in 5 minutes</strong> with four everyday documents</span></li>
-				<li><?php easylot_the_icon( 'check-c' ); ?> <span><strong>Open to overseas buyers</strong> — no restriction on foreign ownership</span></li>
-			</ul>
+		<p class="lede">
+			Easy Lot owns the lots and finances them to you directly. A down payment from 5%,
+			a fixed monthly figure that typically starts near $400, and your name on a
+			registered title — no mortgage application, no loan committee.
+		</p>
 
-			<div class="btn-row">
-				<a class="btn btn--primary btn--lg" href="<?php echo esc_url( easylot_url( 'contact' ) ); ?>">
-					Get pre-approved free <?php easylot_the_icon( 'arrow' ); ?>
-				</a>
-				<a class="btn btn--ghost btn--lg" href="#how">
-					See the 5 steps
-				</a>
-			</div>
+		<div class="btn-row btn-row--center hero__cta">
+			<a class="btn btn--primary btn--lg" href="<?php echo esc_url( easylot_url( 'contact' ) ); ?>">
+				Get pre-approved free <?php easylot_the_icon( 'arrow' ); ?>
+			</a>
+			<a class="btn btn--ghost btn--lg" href="#how">
+				See the 5 steps
+			</a>
 		</div>
 
-		<div style="position:relative;">
-			<?php if ( $hero_v ) : ?>
-				<div class="vcard vcard--hero"
-				     role="button" tabindex="0"
-				     data-video="<?php echo esc_url( $hero_v['src'] ); ?>"
-				     data-orientation="vertical"
-				     data-caption="<?php echo esc_attr( $hero_v['question'] ); ?>"
-				     aria-label="Play video: How does Direct Owner Financing work?">
-					<video src="<?php echo esc_url( $hero_v['src'] ); ?>#t=0.6" preload="metadata" muted playsinline
-					       poster="<?php echo esc_url( get_template_directory_uri() . '/assets/og/og-home.jpg' ); ?>" tabindex="-1" aria-hidden="true"></video>
-					<span class="vcard__veil"></span>
-					<span class="vcard__tag">Watch first</span>
-					<span class="vcard__play"><?php easylot_the_icon( 'play' ); ?></span>
-					<div class="vcard__body">
-						<h2 class="vcard__q">How Direct Owner Financing works</h2>
-						<p class="vcard__a">Two minutes on why there is no bank in this transaction — and what that changes for you.</p>
-					</div>
-				</div>
-			<?php else : ?>
-				<div class="hero__media">
-					<img src="<?php echo esc_url( get_template_directory_uri() . '/assets/og/og-home.jpg' ); ?>" alt="Easy Lot — land for sale in the Cayman Islands" width="1200" height="630">
-				</div>
-			<?php endif; ?>
-
-			<div class="hero__badge">
-				<b>5% down</b>
-				<span>To start owning</span>
+		<?php if ( $hero_v ) : ?>
+			<div class="hero__watch video-open" role="button" tabindex="0"
+			     data-video="<?php echo esc_url( $hero_v['src'] ); ?>"
+			     data-orientation="vertical"
+			     data-caption="<?php echo esc_attr( $hero_v['question'] ); ?>"
+			     aria-label="<?php echo esc_attr( 'Play video: ' . $hero_v['question'] ); ?>">
+				<span class="hero__watch-play"><?php easylot_the_icon( 'play' ); ?></span>
+				<span class="hero__watch-text">
+					<span>Prefer to watch first?</span>
+					How Direct Owner Financing works &mdash; 2 min
+				</span>
 			</div>
-		</div>
+		<?php endif; ?>
 	</div>
 </section>
 

@@ -200,8 +200,8 @@ function easylotBoot() {
 		return { open: open, close: close };
 	}());
 
-	/* Video cards open the lightbox. */
-	$$('.vcard').forEach(function (card) {
+	/* Video cards — and anything tagged .video-open — open the lightbox. */
+	$$('.vcard, .video-open').forEach(function (card) {
 		clickable(card, function () {
 			lightbox.open(
 				card.getAttribute('data-video'),

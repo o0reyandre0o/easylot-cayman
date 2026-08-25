@@ -16,7 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'EASYLOT_VERSION', '1.0.7' );
+define( 'EASYLOT_VERSION', '1.0.8' );
 
 require_once __DIR__ . '/setup-pages.php';
 
@@ -404,6 +404,23 @@ function easylot_video_by_file( $needle ) {
 		}
 	}
 	return null;
+}
+
+
+/**
+ * The hero background video.
+ *
+ * Local-first: drop the clip at assets/hero-bg.mp4 (export it from the
+ * easylot.ky media library — uploads/2026/05/WhatsApp-Video-2026-05-28) and
+ * the theme serves it from the theme folder on any domain. Until that file
+ * exists it falls back to the easylot.ky URL, which works once the theme is
+ * live on easylot.ky itself; on staging the poster stands in.
+ */
+function easylot_hero_video() {
+	if ( file_exists( get_template_directory() . '/assets/hero-bg.mp4' ) ) {
+		return get_template_directory_uri() . '/assets/hero-bg.mp4';
+	}
+	return 'https://easylot.ky/wp-content/uploads/2026/05/WhatsApp-Video-2026-05-28-at-4.12.35-PM.mp4';
 }
 
 /**
