@@ -16,7 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'EASYLOT_VERSION', '1.1.0' );
+define( 'EASYLOT_VERSION', '1.2.0' );
 
 require_once get_template_directory() . '/nav.php';
 require_once get_template_directory() . '/site-footer.php';
@@ -507,6 +507,32 @@ function easylot_faqs() {
 			'a' => 'Our lots start around $39,900, and the entry cost is the down payment rather than the full price — from 5%, so roughly $2,000 on a $40,000 lot. On top of the purchase price you should budget for government stamp duty on the transfer and your own legal fees if you use an attorney. After that there is nothing recurring: the Cayman Islands have no annual property tax.',
 		),
 	);
+}
+
+/**
+ * Does this page have real content of its own?
+ *
+ * The About, Team, Directions and Contact templates print the_content() as an
+ * optional extra rather than as the page. This is what lets them stay designed
+ * when the page body is empty, which is the state most of them are in after a
+ * theme change.
+ */
+function easylot_has_content( $post = null ) {
+	$content = get_post_field( 'post_content', $post ? $post : get_the_ID() );
+	return '' !== trim( wp_strip_all_tags( (string) $content ) );
+}
+
+/**
+ * The team, for template-team.php.
+ *
+ * Deliberately empty: the theme will not invent names or photographs. Fill this
+ * in and the page renders a card grid; leave it and the page renders the page's
+ * own content, or its designed fallback if that is empty too.
+ *
+ * Each entry: array( 'name' => '', 'role' => '', 'photo' => '' )
+ */
+function easylot_team() {
+	return apply_filters( 'easylot_team', array() );
 }
 
 function easylot_testimonials() {

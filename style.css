@@ -4,7 +4,7 @@ Theme URI: https://github.com/o0reyandre0o/easylot-cayman
 Author: Toc Toc Marketing
 Author URI: https://toctoc.ky/
 Description: Editorial WordPress theme for Easy Lot Cayman — teaches visitors how to buy land in the Cayman Islands with Direct Owner Financing. Hand-written CSS (no CDN framework), SEO/AEO structured data, self-hosted video guides and a floating video player.
-Version: 1.1.0
+Version: 1.2.0
 Requires at least: 6.0
 Tested up to: 6.8
 Requires PHP: 7.4
@@ -1765,3 +1765,36 @@ body.elementor-template-canvas { padding-top: var(--nav-h); }
 .entry-content .elementor-section,
 .entry-content .e-con,
 .entry-content .elementor-widget-container { max-width: none; width: 100%; }
+
+/* ==========================================================================
+   25. Optional page body
+   About / Team / Directions / Contact print the_content() as an extra block,
+   set apart from the designed sections around it.
+   ========================================================================== */
+
+.page-body {
+	border-top: 1px solid var(--rule);
+	padding-top: clamp(28px, 4vw, 44px);
+	margin-top: clamp(28px, 4vw, 44px);
+}
+.page-body > .entry-content > *:first-child { margin-top: 0; }
+
+/* Numbered "what happens next" rail */
+.rail { display: grid; gap: 1px; grid-template-columns: repeat(3, minmax(0, 1fr)); }
+@media (max-width: 760px) { .rail { grid-template-columns: 1fr; } }
+.rail__step {
+	background: var(--paper);
+	border: 1px solid var(--rule);
+	padding: clamp(24px, 3vw, 34px);
+	position: relative;
+}
+.section--white .rail__step { background: var(--white); }
+.section--paper-3 .rail__step { background: var(--paper-2); }
+.rail__n {
+	display: block;
+	font-family: var(--sans);
+	font-size: .62rem; font-weight: 800; letter-spacing: .24em;
+	color: var(--red); margin-bottom: 16px;
+}
+.rail__step h3 { font-size: 1.14rem; margin-bottom: .4em; }
+.rail__step p { color: var(--ink-72); font-size: .93rem; margin: 0; }
