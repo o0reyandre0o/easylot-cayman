@@ -348,11 +348,11 @@ get_header();
 						<label class="field__label" for="calc-term">Term</label>
 						<span class="field__val" id="calc-term-val">15 years</span>
 					</div>
-					<?php /* Terms start at 15 years; 10 is the floor and the exception.
-					         step="5" so the slider can only land on a term we actually
-					         write — nobody should be quoted a 13-year plan. */ ?>
-					<input type="range" id="calc-term" min="10" max="25" step="5" value="15">
-					<div class="field__scale"><span>10 years</span><span>25 years</span></div>
+					<?php /* Terms run 15 to 30 years. step="5" so the slider can only
+					         land on a term we actually write — nobody should be quoted
+					         a 17-year plan. */ ?>
+					<input type="range" id="calc-term" min="15" max="30" step="5" value="15">
+					<div class="field__scale"><span>15 years</span><span>30 years</span></div>
 				</div>
 			</div>
 
