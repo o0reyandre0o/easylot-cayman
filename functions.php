@@ -996,6 +996,12 @@ function easylot_seo_plugin_active() {
 }
 
 function easylot_current_url() {
+	if ( is_singular() ) {
+		$permalink = get_permalink();
+		if ( $permalink ) {
+			return $permalink;
+		}
+	}
 	global $wp;
 	return home_url( add_query_arg( array(), isset( $wp->request ) ? $wp->request : '' ) );
 }
