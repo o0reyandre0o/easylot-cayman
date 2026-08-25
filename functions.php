@@ -158,6 +158,22 @@ function easylot_developments() {
 			'from'    => '$59,900',
 			'video'   => '10.-About-Northshore-Estates-1.mp4',
 		),
+		/*
+		 * Ocean Breeze already ranks (position ~4.9 in Search Console) but was
+		 * missing from the old theme's development list. TODO: confirm its hero
+		 * image and starting price — 'from' is left empty until then and the
+		 * templates simply omit the price line rather than invent one.
+		 */
+		array(
+			'name'   => 'Ocean Breeze',
+			'island' => 'Grand Cayman',
+			'link'   => 'https://easylot.ky/project/ocean-breeze/',
+			'image'  => 'https://easylot.ky/wp-content/uploads/2023/08/Grand-Cayman-Aerial.jpg',
+			'flag'   => 'Enquire',
+			'blurb'  => 'Our Grand Cayman coastal development. Open the page for the current lot map and what is still available.',
+			'facts'  => array( 'Grand Cayman', 'Owner financed' ),
+			'from'   => '',
+		),
 	);
 }
 
@@ -460,6 +476,14 @@ function easylot_faqs() {
 			'q' => 'Can I buy with someone else?',
 			'a' => 'Yes — co-applications are common. Both applicants supply the same four documents, and both incomes count towards the payment we approve, which usually means a larger lot than either could take on alone.',
 		),
+		array(
+			'q' => 'Owner financing or a bridging loan — which is right for buying land in Cayman?',
+			'a' => 'A bridging loan is short-term money, usually 6 to 24 months, priced accordingly and repaid in a lump sum when a property sells or long-term finance arrives. It is designed to cover a gap, not to buy and hold land. Owner financing is the opposite: a long fixed term, a small deposit, a predictable monthly payment and no balloon at the end. If you are buying a lot to keep, owner financing is the cheaper and far less stressful of the two.',
+		),
+		array(
+			'q' => 'How much does it cost to buy land in the Cayman Islands?',
+			'a' => 'Our lots start around $39,900, and the entry cost is the down payment rather than the full price — from 5%, so roughly $2,000 on a $40,000 lot. On top of the purchase price you should budget for government stamp duty on the transfer and your own legal fees if you use an attorney. After that there is nothing recurring: the Cayman Islands have no annual property tax.',
+		),
 	);
 }
 
@@ -644,7 +668,7 @@ function easylot_video_grid( $videos, $args = array() ) {
 		return;
 	}
 	?>
-	<div class="grid grid-<?php echo (int) $args['cols']; ?>"<?php echo $args['id'] ? ' id="' . esc_attr( $args['id'] ) . '"' : ''; ?>>
+	<div class="grid grid--media grid-<?php echo (int) $args['cols'] ; ?>"<?php echo $args['id'] ? ' id="' . esc_attr( $args['id'] ) . '"' : ''; ?>>
 		<?php foreach ( $videos as $v ) : ?>
 			<?php easylot_video_card( $v ); ?>
 		<?php endforeach; ?>

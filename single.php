@@ -5,30 +5,42 @@
  * @package EasyLotCayman
  */
 
+// Registered before get_header(), which is when wp_head prints the @graph.
+$queried   = get_queried_object();
+$blog_page = get_option( 'page_for_posts' );
+$blog_url  = $blog_page ? get_permalink( $blog_page ) : home_url( '/blog/' );
+
+$trail = array(
+	'Home' => home_url( '/' ),
+	'Blog' => $blog_url,
+);
+if ( $queried instanceof WP_Post ) {
+	$trail[ get_the_title( $queried ) ] = get_permalink( $queried );
+}
+
+add_filter( 'easylot_schema_graph', function ( $graph ) use ( $trail, $queried ) {
+	$graph[] = easylot_breadcrumbs( $trail );
+
+	if ( $queried instanceof WP_Post ) {
+		$graph[] = array(
+			'@type'            => 'Article',
+			'@id'              => get_permalink( $queried ) . '#article',
+			'headline'         => get_the_title( $queried ),
+			'datePublished'    => get_the_date( 'c', $queried ),
+			'dateModified'     => get_the_modified_date( 'c', $queried ),
+			'author'           => array( '@id' => home_url( '/' ) . '#organization' ),
+			'publisher'        => array( '@id' => home_url( '/' ) . '#organization' ),
+			'mainEntityOfPage' => array( '@id' => get_permalink( $queried ) . '#webpage' ),
+		);
+	}
+
+	return $graph;
+} );
+
 get_header();
 
 while ( have_posts() ) :
 	the_post();
-
-	$trail = array(
-		'Home'          => home_url( '/' ),
-		'Blog'          => get_permalink( get_option( 'page_for_posts' ) ) ? get_permalink( get_option( 'page_for_posts' ) ) : home_url( '/blog/' ),
-		get_the_title() => get_permalink(),
-	);
-	add_filter( 'easylot_schema_graph', function ( $graph ) use ( $trail ) {
-		$graph[] = easylot_breadcrumbs( $trail );
-		$graph[] = array(
-			'@type'         => 'Article',
-			'@id'           => get_permalink() . '#article',
-			'headline'      => get_the_title(),
-			'datePublished' => get_the_date( 'c' ),
-			'dateModified'  => get_the_modified_date( 'c' ),
-			'author'        => array( '@id' => home_url( '/' ) . '#organization' ),
-			'publisher'     => array( '@id' => home_url( '/' ) . '#organization' ),
-			'mainEntityOfPage' => array( '@id' => get_permalink() . '#webpage' ),
-		);
-		return $graph;
-	} );
 	?>
 
 	<header class="page-hero">

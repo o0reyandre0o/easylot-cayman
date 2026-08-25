@@ -10,20 +10,25 @@
  * @package EasyLotCayman
  */
 
+// Registered before get_header(), which is when wp_head prints the @graph.
+$queried = get_queried_object();
+$trail   = array(
+	'Home'          => home_url( '/' ),
+	'Land for Sale' => easylot_url( 'developments' ),
+);
+if ( $queried instanceof WP_Post ) {
+	$trail[ get_the_title( $queried ) ] = get_permalink( $queried );
+}
+
+add_filter( 'easylot_schema_graph', function ( $graph ) use ( $trail ) {
+	$graph[] = easylot_breadcrumbs( $trail );
+	return $graph;
+} );
+
 get_header();
 
 while ( have_posts() ) :
 	the_post();
-
-	$trail = array(
-		'Home'          => home_url( '/' ),
-		'Land for Sale' => easylot_url( 'developments' ),
-		get_the_title() => get_permalink(),
-	);
-	add_filter( 'easylot_schema_graph', function ( $graph ) use ( $trail ) {
-		$graph[] = easylot_breadcrumbs( $trail );
-		return $graph;
-	} );
 	?>
 
 	<header class="page-hero">

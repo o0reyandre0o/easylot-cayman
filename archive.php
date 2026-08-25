@@ -1,6 +1,6 @@
 <?php
 /**
- * Fallback template / blog index.
+ * Archive listing (category, tag, date, custom post type).
  *
  * @package EasyLotCayman
  */
@@ -9,11 +9,13 @@ get_header();
 ?>
 <header class="page-hero">
 	<div class="wrap">
-		<?php if ( is_home() && ! is_front_page() ) : ?>
-			<span class="eyebrow">Journal</span>
-			<h1><?php echo esc_html( get_the_title( get_option( 'page_for_posts' ) ) ? get_the_title( get_option( 'page_for_posts' ) ) : 'Latest from Easy Lot' ); ?></h1>
-		<?php else : ?>
-			<h1><?php echo esc_html( get_bloginfo( 'name' ) ); ?></h1>
+		<span class="eyebrow">Archive</span>
+		<h1><?php echo esc_html( wp_strip_all_tags( get_the_archive_title() ) ); ?></h1>
+		<?php
+		$desc = get_the_archive_description();
+		if ( $desc ) :
+			?>
+			<div class="lede"><?php echo wp_kses_post( $desc ); ?></div>
 		<?php endif; ?>
 	</div>
 </header>
@@ -34,7 +36,7 @@ get_header();
 						<?php endif; ?>
 						<div class="lot__body">
 							<div class="lot__where"><?php echo esc_html( get_the_date() ); ?></div>
-							<h3><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h3>
+							<h2 style="font-size:1.3rem;"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h2>
 							<p><?php echo esc_html( get_the_excerpt() ); ?></p>
 							<a class="btn btn--ghost" style="margin-top:20px;" href="<?php the_permalink(); ?>">
 								Read <?php easylot_the_icon( 'arrow' ); ?>

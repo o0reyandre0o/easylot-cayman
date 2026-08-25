@@ -11,7 +11,7 @@
  */
 
 $c        = easylot_contact();
-$devs     = easylot_developments();
+$devs     = array_slice( easylot_developments(), 0, 3 ); // the three we actively push
 $faqs     = array_slice( easylot_faqs(), 0, 8 );
 $featured = easylot_videos( array( 'featured' => true ) );
 $why      = easylot_videos( array( 'category' => 'investment', 'limit' => 4 ) );
@@ -133,11 +133,13 @@ get_header();
 <!-- ============================================================ TRUST STRIP -->
 <section class="trust">
 	<div class="wrap">
+		<?php /* Units go in a .u span so "5%" and "5 min" keep the same numeral
+		         weight as the bare "0" and "4" instead of crowding their cell. */ ?>
 		<div class="trust__grid">
 			<div class="trust__cell"><b>0</b><span>Banks involved</span></div>
-			<div class="trust__cell"><b>5%</b><span>Minimum down</span></div>
+			<div class="trust__cell"><b>5<span class="u">%</span></b><span>Minimum down</span></div>
 			<div class="trust__cell"><b>4</b><span>Documents needed</span></div>
-			<div class="trust__cell"><b>5 min</b><span>To pre-approval</span></div>
+			<div class="trust__cell"><b>5<span class="u">min</span></b><span>To pre-approval</span></div>
 		</div>
 	</div>
 </section>
@@ -471,7 +473,7 @@ get_header();
 			</p>
 		</div>
 
-		<div class="grid grid-4">
+		<div class="grid grid--media grid-4">
 			<?php foreach ( $why as $v ) : ?>
 				<?php easylot_video_card( $v ); ?>
 			<?php endforeach; ?>

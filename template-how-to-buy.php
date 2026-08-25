@@ -12,7 +12,7 @@
  */
 
 $c    = easylot_contact();
-$devs = easylot_developments();
+$devs = array_slice( easylot_developments(), 0, 3 );
 $faqs = easylot_faqs();
 
 $GLOBALS['easylot_seo_title']       = 'How to Buy Land in the Cayman Islands Without a Bank | Easy Lot';
@@ -390,7 +390,9 @@ get_header();
 						<div class="lot__where"><?php easylot_the_icon( 'pin' ); ?> <?php echo esc_html( $d['island'] ); ?></div>
 						<h3><?php echo esc_html( $d['name'] ); ?></h3>
 						<p><?php echo esc_html( $d['blurb'] ); ?></p>
-						<div class="lot__price"><b><?php echo esc_html( $d['from'] ); ?></b><span>starting price</span></div>
+						<?php if ( ! empty( $d['from'] ) ) : ?>
+							<div class="lot__price"><b><?php echo esc_html( $d['from'] ); ?></b><span>starting price</span></div>
+						<?php endif; ?>
 						<a class="btn btn--ink btn--wide" href="<?php echo esc_url( $d['link'] ); ?>">View lots &amp; map <?php easylot_the_icon( 'arrow' ); ?></a>
 					</div>
 				</article>

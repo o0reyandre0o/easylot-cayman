@@ -13,7 +13,7 @@ $devs = easylot_developments();
 $c    = easylot_contact();
 
 $GLOBALS['easylot_seo_title']       = 'Land for Sale in the Cayman Islands — All Developments | Easy Lot';
-$GLOBALS['easylot_seo_description'] = 'Owner-financed land for sale in Grand Cayman and Little Cayman: Elena Estates, High Rock Estates and Northshore Estates. Interactive lot maps, starting prices and 5% down payments.';
+$GLOBALS['easylot_seo_description'] = 'Owner-financed land for sale in Grand Cayman and Little Cayman: Elena Estates, High Rock Estates, Northshore Estates and Ocean Breeze. Interactive lot maps, starting prices and 5% down payments.';
 
 $trail = array(
 	'Home'          => home_url( '/' ),
@@ -62,16 +62,16 @@ get_header();
 		<span class="eyebrow">Land for sale</span>
 		<h1>Owner-financed land in <span class="accent">Grand Cayman &amp; Little Cayman</span></h1>
 		<p class="lede">
-			Three developments across two islands, all sold with direct owner financing — 5% down,
-			fixed monthly payments and no bank. Open a development to see its live lot map and
-			what is still available.
+			Every one of our developments is sold with direct owner financing — 5% down, fixed
+			monthly payments and no bank. Open one to see its live lot map and what is still
+			available.
 		</p>
 	</div>
 </header>
 
 <section class="section section--paper">
 	<div class="wrap">
-		<div class="grid grid-3">
+		<div class="grid grid-2">
 			<?php foreach ( $devs as $d ) : ?>
 				<article class="lot reveal">
 					<div class="lot__img">
@@ -87,7 +87,9 @@ get_header();
 								<span class="lot__fact"><?php echo esc_html( $f ); ?></span>
 							<?php endforeach; ?>
 						</div>
-						<div class="lot__price"><b><?php echo esc_html( $d['from'] ); ?></b><span>starting price</span></div>
+						<?php if ( ! empty( $d['from'] ) ) : ?>
+							<div class="lot__price"><b><?php echo esc_html( $d['from'] ); ?></b><span>starting price</span></div>
+						<?php endif; ?>
 						<a class="btn btn--ink btn--wide" href="<?php echo esc_url( $d['link'] ); ?>">
 							View lots &amp; map <?php easylot_the_icon( 'arrow' ); ?>
 						</a>
@@ -108,7 +110,7 @@ get_header();
 		<div class="section-head section-head--center">
 			<span class="eyebrow eyebrow--center">Take the tour</span>
 			<h2>What each development is actually like</h2>
-			<p class="lede">We walked all three with a camera, so you can see the terrain, the roads and the surroundings before you drive out.</p>
+			<p class="lede">We walked them with a camera, so you can see the terrain, the roads and the surroundings before you drive out.</p>
 		</div>
 		<?php easylot_video_grid( easylot_videos( array( 'category' => 'developments' ) ), array( 'cols' => 3 ) ); ?>
 	</div>

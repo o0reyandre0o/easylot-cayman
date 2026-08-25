@@ -11,3 +11,6 @@ Thumbs.db
 # Local video sources (encoded files are uploaded to the media library)
 *.mov
 21-source.mp4
+
+# Local design preview (hardcoded absolute paths, not part of the theme)
+preview.html
