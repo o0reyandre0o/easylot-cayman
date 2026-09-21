@@ -34,7 +34,6 @@ function easylot_render_footer() {
 				<a href="<?php echo esc_url( $c['social']['facebook'] ); ?>" target="_blank" rel="noopener" aria-label="Facebook"><?php easylot_the_icon( 'facebook' ); ?></a>
 				<a href="<?php echo esc_url( $c['social']['instagram'] ); ?>" target="_blank" rel="noopener" aria-label="Instagram"><?php easylot_the_icon( 'instagram' ); ?></a>
 				<a href="<?php echo esc_url( $c['social']['youtube'] ); ?>" target="_blank" rel="noopener" aria-label="YouTube"><?php easylot_the_icon( 'youtube' ); ?></a>
-				<a href="<?php echo esc_url( $c['social']['tiktok'] ); ?>" target="_blank" rel="noopener" aria-label="TikTok"><?php easylot_the_icon( 'tiktok' ); ?></a>
 			</div>
 		</div>
 
