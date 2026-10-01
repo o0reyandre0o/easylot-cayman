@@ -16,7 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'EASYLOT_VERSION', '1.7.4' );
+define( 'EASYLOT_VERSION', '1.7.5' );
 
 require_once get_template_directory() . '/nav.php';
 require_once get_template_directory() . '/site-footer.php';
@@ -953,7 +953,6 @@ function easylot_video_grid( $videos, $args = array() ) {
  * ========================================================================== */
 
 function easylot_render_video_ui() {
-	$intro = easylot_intro_video();
 	?>
 	<!-- Shared lightbox: video cards and the mini player both hand their file to this. -->
 	<div class="vbox" id="vbox" role="dialog" aria-modal="true" aria-label="Video player" hidden>
@@ -966,6 +965,16 @@ function easylot_render_video_ui() {
 		</div>
 	</div>
 
+	<?php
+	/*
+	 * The floating player is a home-page invitation, not site furniture. On an
+	 * inner page the visitor has already chosen a topic, so a clip looping in the
+	 * corner is just in the way. The lightbox above still prints everywhere --
+	 * the video cards on the other templates hand their clip to it.
+	 */
+	if ( is_front_page() ) :
+		$intro = easylot_intro_video();
+		?>
 	<!-- Floating player, bottom-left: silent looping teaser until pressed. -->
 	<div class="miniplayer" id="miniplayer"
 	     role="button" tabindex="0"
@@ -988,7 +997,8 @@ function easylot_render_video_ui() {
 			<?php echo esc_html( $intro['label'] ); ?>
 		</span>
 	</div>
-	<?php
+		<?php
+	endif;
 }
 // Priority 5: the markup must be in the DOM before wp_print_footer_scripts
 // (priority 20) runs main.js, or the player never finds #miniplayer.
