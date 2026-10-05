@@ -16,7 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'EASYLOT_VERSION', '1.7.7' );
+define( 'EASYLOT_VERSION', '1.7.8' );
 
 require_once get_template_directory() . '/nav.php';
 require_once get_template_directory() . '/site-footer.php';
@@ -1475,6 +1475,20 @@ function easylot_elementor_page_seo() {
 }
 
 /**
+ * Short <title>s for posts whose own title runs long, keyed by slug.
+ *
+ * The H1 keeps the full title; only the <title> and og:title change. The
+ * bridging-loan post was 93 characters with " – Easy Lot", and 76 without it,
+ * which is one of the two long titles Bing's site scan flagged. A
+ * _easylot_seo_title saved on the post itself still wins over this list.
+ */
+function easylot_post_seo_titles() {
+	return array(
+		'owner-financing-vs-bridging-loan-cayman' => 'Owner Financing vs Bridging Loans in Cayman',
+	);
+}
+
+/**
  * Titles and descriptions the templates cannot set themselves.
  *
  * Runs on 'wp', before the template loads: a template that sets its own
@@ -1515,6 +1529,13 @@ function easylot_contextual_seo() {
 		$id    = get_queried_object_id();
 		$title = trim( (string) get_post_meta( $id, '_easylot_seo_title', true ) );
 		$desc  = trim( (string) get_post_meta( $id, '_easylot_seo_description', true ) );
+
+		// The theme's own short titles, used when the post meta is not set.
+		if ( '' === $title ) {
+			$short = easylot_post_seo_titles();
+			$slug  = get_post_field( 'post_name', $id );
+			$title = isset( $short[ $slug ] ) ? $short[ $slug ] : '';
+		}
 		if ( '' !== $title ) {
 			$GLOBALS['easylot_seo_title'] = easylot_title_with_brand( $title );
 		}
