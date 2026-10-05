@@ -14,7 +14,7 @@ $c = easylot_contact();
 $has_body = easylot_has_content();
 
 $GLOBALS['easylot_seo_title']       = 'Get Pre-Approved for Land in the Cayman Islands | Easy Lot';
-$GLOBALS['easylot_seo_description'] = 'Free 5-minute pre-approval for owner-financed land in Grand Cayman and Little Cayman. Four documents, no bank, no obligation. Call, WhatsApp or apply online.';
+$GLOBALS['easylot_seo_description'] = 'Free 5-minute pre-approval for owner-financed land in Grand Cayman and Little Cayman. Four documents, no bank. Call, WhatsApp or apply online.';
 
 $trail = array(
 	'Home'    => home_url( '/' ),

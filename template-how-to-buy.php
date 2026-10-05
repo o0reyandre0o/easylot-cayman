@@ -15,8 +15,8 @@ $c    = easylot_contact();
 $devs = array_slice( easylot_developments(), 0, 3 );
 $faqs = easylot_faqs();
 
-$GLOBALS['easylot_seo_title']       = 'How to Buy Land in the Cayman Islands Without a Bank | Easy Lot';
-$GLOBALS['easylot_seo_description'] = 'A step-by-step guide to buying land in the Cayman Islands with direct owner financing: what you need, what it costs, how long it takes, and how the title ends up in your name.';
+$GLOBALS['easylot_seo_title']       = 'How to Buy Land in Cayman Without a Bank | Easy Lot';
+$GLOBALS['easylot_seo_description'] = 'Step by step: buying land in the Cayman Islands with direct owner financing. What you need, what it costs, how long it takes and when the title is yours.';
 
 $trail = array(
 	'Home'                => home_url( '/' ),

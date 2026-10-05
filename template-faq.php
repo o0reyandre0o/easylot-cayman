@@ -8,8 +8,8 @@
 $faqs = easylot_faqs();
 $c    = easylot_contact();
 
-$GLOBALS['easylot_seo_title']       = 'Owner Financing FAQ — Buying Land in the Cayman Islands | Easy Lot';
-$GLOBALS['easylot_seo_description'] = 'Answers on buying land in the Cayman Islands without a bank: down payments from 5%, fixed monthly payments, the four documents you need, AML, stamp duty, foreign ownership and title transfer.';
+$GLOBALS['easylot_seo_title']       = 'Owner Financing FAQ: Buying Land in Cayman | Easy Lot';
+$GLOBALS['easylot_seo_description'] = 'Buying land in the Cayman Islands without a bank: 5% down payments, fixed monthly payments, the four documents you need, stamp duty and title transfer.';
 
 $trail = array(
 	'Home' => home_url( '/' ),

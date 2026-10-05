@@ -17,8 +17,8 @@ $featured = easylot_videos( array( 'featured' => true ) );
 $why      = easylot_videos( array( 'category' => 'investment', 'limit' => 4 ) );
 $hero_v   = easylot_video_by_file( '2.-About-Direct-Owner-Financing' );
 
-$GLOBALS['easylot_seo_title']       = 'Land for Sale in the Cayman Islands — Owner Financed, No Banks | Easy Lot';
-$GLOBALS['easylot_seo_description'] = 'Buy land in Grand Cayman and Little Cayman direct from the owner. No bank, no mortgage: 5% down, fixed monthly payments from about $400, and a 5-minute pre-approval with four documents.';
+$GLOBALS['easylot_seo_title']       = 'Land for Sale in the Cayman Islands, No Bank | Easy Lot';
+$GLOBALS['easylot_seo_description'] = 'Buy land in Grand Cayman and Little Cayman direct from the owner. No bank: 5% down, fixed monthly payments from about $400 and a 5-minute pre-approval.';
 
 /**
  * Homepage schema: the FAQ answers, the developments as an ItemList, and every

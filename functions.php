@@ -16,7 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'EASYLOT_VERSION', '1.7.5' );
+define( 'EASYLOT_VERSION', '1.7.6' );
 
 require_once get_template_directory() . '/nav.php';
 require_once get_template_directory() . '/site-footer.php';
@@ -1318,7 +1318,7 @@ function easylot_seo_title() {
 		return 'Land for Sale in the Cayman Islands — Owner Financed, No Banks | ' . get_bloginfo( 'name' );
 	}
 	if ( is_singular() ) {
-		return get_the_title() . ' | ' . get_bloginfo( 'name' );
+		return easylot_title_with_brand( get_the_title() );
 	}
 	return wp_get_document_title();
 }
@@ -1328,8 +1328,338 @@ function easylot_seo_description() {
 	if ( ! empty( $easylot_seo_description ) ) {
 		return $easylot_seo_description;
 	}
+	$derived = easylot_derived_description();
+	if ( '' !== $derived ) {
+		return $derived;
+	}
 	return 'Buy land in Grand Cayman and Little Cayman with Direct Owner Financing. No banks, no mortgage, down payments from 5%, fixed monthly payments and a 5-minute online pre-approval.';
 }
+
+/**
+ * The post types that are the public website.
+ *
+ * Everything else registered on this install belongs to the customer portal
+ * (leads, AML and risk checklists, submissions, notifications, logs...). Those
+ * were public in WordPress's eyes, so the core sitemap listed thousands of them
+ * and search engines started indexing them. This list is what the sitemap,
+ * the robots tag and the derived descriptions treat as the site.
+ */
+function easylot_public_post_types() {
+	return array( 'post', 'page', 'project', 'lot' );
+}
+
+/**
+ * A meta description per page instead of one string for the whole site.
+ *
+ * Bing flagged 115 pages sharing the same description: every lot, development
+ * and post without a template of its own fell back to the default. Only public
+ * post types get one derived from their content — a portal record's content
+ * must never be lifted into a public meta tag.
+ */
+function easylot_derived_description() {
+	if ( is_singular( 'lot' ) ) {
+		return easylot_fit_description(
+			get_the_title( get_queried_object_id() ) . ': land for sale in the Cayman Islands with Easy Lot. Direct owner financing, no bank, 5% down and fixed monthly payments.'
+		);
+	}
+
+	if ( is_singular( easylot_public_post_types() ) ) {
+		$post = get_queried_object();
+		if ( $post instanceof WP_Post ) {
+			$source = '' !== trim( $post->post_excerpt ) ? $post->post_excerpt : $post->post_content;
+			$text   = easylot_fit_description( $source );
+			// Too short to describe anything (an embed, a shortcode): use the default.
+			if ( mb_strlen( $text ) >= 70 ) {
+				return $text;
+			}
+		}
+		return '';
+	}
+
+	if ( is_category() || is_tag() || is_tax() ) {
+		$text = easylot_fit_description( term_description() );
+		if ( '' !== $text ) {
+			return $text;
+		}
+		return easylot_fit_description(
+			single_term_title( '', false ) . ': articles from Easy Lot on buying land in the Cayman Islands with direct owner financing.'
+		);
+	}
+
+	return '';
+}
+
+/**
+ * Plain text, one line, at most 155 characters, cut on a word (playbook §3.1).
+ */
+function easylot_fit_description( $text, $max = 155 ) {
+	$text  = html_entity_decode( wp_strip_all_tags( strip_shortcodes( (string) $text ), true ), ENT_QUOTES, 'UTF-8' );
+	$clean = preg_replace( '/[\s\x{00A0}]+/u', ' ', $text );
+	$text  = trim( null === $clean ? $text : $clean );
+
+	if ( mb_strlen( $text ) <= $max ) {
+		return $text;
+	}
+
+	$cut   = mb_substr( $text, 0, $max - 1 );
+	$space = strrpos( $cut, ' ' ); // a byte offset, safe to cut at because a space is one byte
+	if ( false !== $space && $space > 60 ) {
+		$cut = substr( $cut, 0, $space );
+	}
+	return rtrim( $cut, ' ,;:.-' ) . '…';
+}
+
+/**
+ * Append the site name only while the whole title still fits in 60 characters.
+ *
+ * The playbook caps titles at 60 (§3.1), Google cuts them around there and
+ * Bing flags long ones. A long title is better off losing " | Easy Lot" than
+ * losing its own words.
+ */
+function easylot_title_with_brand( $title ) {
+	$brand = get_bloginfo( 'name' );
+	$plain = html_entity_decode( wp_strip_all_tags( $title . ' | ' . $brand ), ENT_QUOTES, 'UTF-8' );
+	return mb_strlen( $plain ) > 60 ? $title : $title . ' | ' . $brand;
+}
+
+/**
+ * The same rule for the <title> WordPress builds on its own.
+ */
+function easylot_document_title_parts( $parts ) {
+	if ( easylot_seo_plugin_active() || empty( $parts['title'] ) || empty( $parts['site'] ) ) {
+		return $parts;
+	}
+	$plain = html_entity_decode( wp_strip_all_tags( $parts['title'] . ' - ' . $parts['site'] ), ENT_QUOTES, 'UTF-8' );
+	if ( mb_strlen( $plain ) > 60 ) {
+		unset( $parts['site'] );
+	}
+	return $parts;
+}
+add_filter( 'document_title_parts', 'easylot_document_title_parts' );
+
+/**
+ * The development a project page is about, from easylot_developments().
+ */
+function easylot_current_development() {
+	$here = untrailingslashit( (string) wp_parse_url( get_permalink( get_queried_object_id() ), PHP_URL_PATH ) );
+	foreach ( easylot_developments() as $dev ) {
+		if ( ! empty( $dev['link'] ) && untrailingslashit( (string) wp_parse_url( $dev['link'], PHP_URL_PATH ) ) === $here ) {
+			return $dev;
+		}
+	}
+	return null;
+}
+
+/**
+ * SEO for pages the client built in Elementor.
+ *
+ * setup-pages.php leaves an Elementor page alone rather than attach the theme
+ * template over the client's layout — so the template's title and description
+ * never reach it. The developments page is the one that cost the most: 140
+ * impressions in September at position 3.5, with 0.7% CTR, on the site-wide
+ * default snippet. Keyed by slug.
+ *
+ * The title leads with "Cayman Islands Land for Sale" rather than repeating the
+ * home page's "Land for Sale in the Cayman Islands", so the two pages are not
+ * competing for the same search (playbook §2).
+ */
+function easylot_elementor_page_seo() {
+	$developments = array(
+		'title'       => easylot_title_with_brand( 'Cayman Islands Land for Sale: All Developments' ),
+		'description' => 'Owner-financed land in Grand Cayman and Little Cayman: Elena Estates, High Rock, Northshore and Ocean Breeze. Lot maps, prices from $39,900 and 5% down.',
+	);
+	return array(
+		'all-our-developments'   => $developments,
+		'all-our-developments-2' => $developments,
+	);
+}
+
+/**
+ * Titles and descriptions the templates cannot set themselves.
+ *
+ * Runs on 'wp', before the template loads: a template that sets its own
+ * $GLOBALS['easylot_seo_*'] still wins.
+ */
+function easylot_contextual_seo() {
+	if ( easylot_seo_plugin_active() ) {
+		return;
+	}
+
+	if ( is_singular( 'project' ) ) {
+		$dev = easylot_current_development();
+		if ( $dev ) {
+			$GLOBALS['easylot_seo_title'] = easylot_title_with_brand( $dev['name'] . ': Land for Sale in ' . $dev['island'] );
+
+			$lead = $dev['name'] . ', ' . $dev['island'] . ': owner-financed lots' . ( ! empty( $dev['from'] ) ? ' from ' . $dev['from'] : '' ) . '. ';
+			$GLOBALS['easylot_seo_description'] = easylot_fit_description( $lead . ( isset( $dev['blurb'] ) ? $dev['blurb'] : '' ) );
+		}
+		return;
+	}
+
+	if ( is_page() ) {
+		$map  = easylot_elementor_page_seo();
+		$slug = get_post_field( 'post_name', get_queried_object_id() );
+		if ( isset( $map[ $slug ] ) ) {
+			$GLOBALS['easylot_seo_title']       = $map[ $slug ]['title'];
+			$GLOBALS['easylot_seo_description'] = $map[ $slug ]['description'];
+		}
+		return;
+	}
+
+	/*
+	 * Posts: a short <title> and description in post meta, without touching
+	 * the H1 (playbook §3.1). Set over the REST API or WP-CLI; the leading
+	 * underscore keeps them out of the editor's Custom Fields box.
+	 */
+	if ( is_singular( 'post' ) ) {
+		$id    = get_queried_object_id();
+		$title = trim( (string) get_post_meta( $id, '_easylot_seo_title', true ) );
+		$desc  = trim( (string) get_post_meta( $id, '_easylot_seo_description', true ) );
+		if ( '' !== $title ) {
+			$GLOBALS['easylot_seo_title'] = easylot_title_with_brand( $title );
+		}
+		if ( '' !== $desc ) {
+			$GLOBALS['easylot_seo_description'] = easylot_fit_description( $desc );
+		}
+	}
+}
+add_action( 'wp', 'easylot_contextual_seo' );
+
+/**
+ * Is this request part of the customer portal rather than the website?
+ */
+function easylot_is_portal_request() {
+	// Portal records: anything singular that is not the public website.
+	if ( is_singular() && ! is_singular( array_merge( easylot_public_post_types(), array( 'attachment' ) ) ) ) {
+		return true;
+	}
+	if ( is_post_type_archive() && ! is_post_type_archive( easylot_public_post_types() ) ) {
+		return true;
+	}
+	// The login and account screens (Bing had /account/login/ indexed).
+	$path = isset( $_SERVER['REQUEST_URI'] ) ? (string) wp_parse_url( wp_unslash( $_SERVER['REQUEST_URI'] ), PHP_URL_PATH ) : ''; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput
+	return '/account' === untrailingslashit( $path ) || 0 === strpos( $path, '/account/' );
+}
+
+/**
+ * How a page should be kept out of search results, if at all.
+ *
+ * 'portal'  -> noindex, nofollow: crawlers have no business walking portal records.
+ * 'utility' -> noindex, follow: search, 404, attachments and pagination, per
+ *              playbook §3.3. Category archives stay indexed on purpose:
+ *              /category/owner-financing-program/ earns clicks at position ~4.
+ * ''        -> indexed.
+ */
+function easylot_noindex_mode() {
+	if ( easylot_is_portal_request() ) {
+		return 'portal';
+	}
+	if ( is_search() || is_404() || is_attachment() || is_paged() || is_author() ) {
+		return 'utility';
+	}
+	return '';
+}
+
+/**
+ * One robots tag, through WordPress's own.
+ *
+ * The theme used to print a second robots tag next to core's, hardcoded to
+ * "index, follow" on every URL — portal records and login screens included.
+ * Feeding wp_robots instead leaves a single tag, and core's own noindex (a
+ * site set to discourage search engines) still applies.
+ */
+function easylot_wp_robots( $robots ) {
+	if ( easylot_seo_plugin_active() ) {
+		return $robots;
+	}
+	$mode = easylot_noindex_mode();
+	if ( 'portal' === $mode ) {
+		$robots['noindex']  = true;
+		$robots['nofollow'] = true;
+		return $robots;
+	}
+	if ( 'utility' === $mode ) {
+		$robots['noindex'] = true;
+		return $robots;
+	}
+	$robots['max-snippet']       = '-1';
+	$robots['max-video-preview'] = '-1';
+	$robots['max-image-preview'] = 'large';
+	return $robots;
+}
+add_filter( 'wp_robots', 'easylot_wp_robots' );
+
+/**
+ * One canonical: the theme prints its own in easylot_head(), so core's goes.
+ */
+function easylot_single_canonical() {
+	if ( ! easylot_seo_plugin_active() ) {
+		remove_action( 'wp_head', 'rel_canonical' );
+	}
+}
+add_action( 'wp', 'easylot_single_canonical' );
+
+/**
+ * Keep the portal out of the sitemap.
+ *
+ * Unconditional on purpose: even with an SEO plugin installed, the core sitemap
+ * stays on whenever the plugin's own is off — and listing portal records is
+ * never wanted. The users sitemap goes too: it was publishing every account's
+ * author URL, and with it their usernames.
+ */
+function easylot_sitemap_post_types( $post_types ) {
+	return array_intersect_key( $post_types, array_flip( easylot_public_post_types() ) );
+}
+add_filter( 'wp_sitemaps_post_types', 'easylot_sitemap_post_types' );
+
+function easylot_sitemap_providers( $provider, $name ) {
+	return 'users' === $name ? false : $provider;
+}
+add_filter( 'wp_sitemaps_add_provider', 'easylot_sitemap_providers', 10, 2 );
+
+/**
+ * Author archives -> 301 to the team page.
+ *
+ * WordPress publishes each account's login at /author/username/ (playbook §3.4
+ * and §14). Nobody writes on this site under their own archive, so they all go
+ * to the people page instead.
+ */
+function easylot_redirect_author_archives() {
+	if ( is_author() ) {
+		wp_safe_redirect( easylot_url( 'team' ), 301 );
+		exit;
+	}
+}
+add_action( 'template_redirect', 'easylot_redirect_author_archives' );
+
+/**
+ * AI assistants, explicitly welcome in robots.txt (playbook §7.2).
+ *
+ * Only on a site that is open to search engines: with "discourage search
+ * engines" on, core already answers Disallow: / and that must stand.
+ */
+function easylot_robots_txt( $output, $public ) {
+	if ( ! $public ) {
+		return $output;
+	}
+	$bots = array(
+		'GPTBot', 'OAI-SearchBot', 'ChatGPT-User',
+		'Google-Extended',
+		'PerplexityBot', 'Perplexity-User',
+		'ClaudeBot', 'Claude-SearchBot', 'Claude-User', 'anthropic-ai',
+		'Applebot-Extended',
+		'CCBot',
+	);
+	$block = "\n# AI assistants - explicitly welcome\n";
+	foreach ( $bots as $bot ) {
+		$block .= 'User-agent: ' . $bot . "\n";
+	}
+	// A bot that matches its own group ignores the * group, so the admin rule
+	// is repeated here; everything else is open.
+	$block .= "Allow: /\nDisallow: /wp-admin/\nAllow: /wp-admin/admin-ajax.php\n";
+	return rtrim( $output ) . "\n" . $block;
+}
+add_filter( 'robots_txt', 'easylot_robots_txt', 20, 2 );
 
 
 /**
@@ -1384,7 +1714,7 @@ function easylot_head() {
 	if ( ! easylot_seo_plugin_active() ) {
 		echo '<meta name="description" content="' . esc_attr( easylot_seo_description() ) . '" />' . "\n";
 		echo '<link rel="canonical" href="' . esc_url( $url ) . '" />' . "\n";
-		echo '<meta name="robots" content="index, follow, max-snippet:-1, max-video-preview:-1, max-image-preview:large" />' . "\n";
+		// Robots goes through core's single tag: see easylot_wp_robots().
 		echo '<meta property="og:type" content="website" />' . "\n";
 		echo '<meta property="og:locale" content="en_US" />' . "\n";
 		echo '<meta property="og:site_name" content="' . esc_attr( get_bloginfo( 'name' ) ) . '" />' . "\n";

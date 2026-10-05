@@ -17,7 +17,7 @@ $values   = easylot_values();
 $featured = easylot_videos( array( 'featured' => true ) );
 
 $GLOBALS['easylot_seo_title']       = 'About Easy Lot Cayman | Our Mission &amp; Financing Story';
-$GLOBALS['easylot_seo_description'] = 'Easy Lot empowers individuals and families to achieve land ownership in the Cayman Islands with owner financing. Backed by Cayman Development Group and founded by Tommy Sofield.';
+$GLOBALS['easylot_seo_description'] = 'Easy Lot helps families own land in the Cayman Islands with owner financing. Backed by Cayman Development Group and founded by Tommy Sofield.';
 
 $trail = array(
 	'Home'  => home_url( '/' ),

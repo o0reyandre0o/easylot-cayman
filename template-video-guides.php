@@ -12,7 +12,7 @@ $videos     = easylot_videos();
 $categories = easylot_video_categories();
 
 $GLOBALS['easylot_seo_title']       = 'Video Guides: Buying Land in the Cayman Islands | Easy Lot';
-$GLOBALS['easylot_seo_description'] = 'Short videos answering the questions we get asked most about buying land in Grand Cayman and Little Cayman: how owner financing works, how to apply, and what happens after approval.';
+$GLOBALS['easylot_seo_description'] = 'Short videos on buying land in Grand Cayman and Little Cayman: how owner financing works, how to apply and what happens after you are approved.';
 
 $trail = array(
 	'Home'         => home_url( '/' ),
