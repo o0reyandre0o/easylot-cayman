@@ -16,7 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'EASYLOT_VERSION', '1.7.6' );
+define( 'EASYLOT_VERSION', '1.7.7' );
 
 require_once get_template_directory() . '/nav.php';
 require_once get_template_directory() . '/site-footer.php';
@@ -1382,7 +1382,7 @@ function easylot_derived_description() {
 			return $text;
 		}
 		return easylot_fit_description(
-			single_term_title( '', false ) . ': articles from Easy Lot on buying land in the Cayman Islands with direct owner financing.'
+			single_term_title( '', false ) . ': articles from Easy Lot on buying land in Grand Cayman and Little Cayman with direct owner financing: no bank, 5% down.'
 		);
 	}
 
@@ -1630,7 +1630,27 @@ function easylot_redirect_author_archives() {
 		exit;
 	}
 }
-add_action( 'template_redirect', 'easylot_redirect_author_archives' );
+// Priority 1: ahead of core's redirect_canonical (10), which would otherwise
+// first bounce /?author=1 to /author/username/ and leak the login on the way.
+add_action( 'template_redirect', 'easylot_redirect_author_archives', 1 );
+
+/**
+ * The REST users list is the same leak through another door: anonymous
+ * requests to /wp-json/wp/v2/users returned every author's slug. Logged-in
+ * users (the editor, automations on an application password) keep it.
+ */
+function easylot_hide_rest_users( $endpoints ) {
+	if ( is_user_logged_in() ) {
+		return $endpoints;
+	}
+	foreach ( array_keys( $endpoints ) as $route ) {
+		if ( 0 === strpos( $route, '/wp/v2/users' ) ) {
+			unset( $endpoints[ $route ] );
+		}
+	}
+	return $endpoints;
+}
+add_filter( 'rest_endpoints', 'easylot_hide_rest_users' );
 
 /**
  * AI assistants, explicitly welcome in robots.txt (playbook §7.2).
