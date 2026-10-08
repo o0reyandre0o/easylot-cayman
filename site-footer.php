@@ -79,8 +79,8 @@ function easylot_render_footer() {
 		<div class="site-footer__bar">
 			<span>© <?php echo esc_html( gmdate( 'Y' ) ); ?> <?php echo esc_html( get_bloginfo( 'name' ) ); ?>. All rights reserved.</span>
 			<span>
-				<a href="<?php echo esc_url( home_url( '/privacy-policy/' ) ); ?>">Privacy</a> ·
-				<a href="<?php echo esc_url( home_url( '/terms-of-service/' ) ); ?>">Terms</a>
+				<a href="<?php echo esc_url( easylot_url( 'privacy' ) ); ?>">Privacy</a> ·
+				<a href="<?php echo esc_url( easylot_url( 'terms' ) ); ?>">Terms</a>
 			</span>
 			<span>Created by <a href="https://toctoc.ky/" target="_blank" rel="noopener">Toc Toc Marketing</a></span>
 		</div>

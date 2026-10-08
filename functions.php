@@ -16,7 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'EASYLOT_VERSION', '1.7.9' );
+define( 'EASYLOT_VERSION', '1.7.10' );
 
 require_once get_template_directory() . '/nav.php';
 require_once get_template_directory() . '/site-footer.php';
@@ -809,6 +809,9 @@ function easylot_url( $key ) {
 		'team'         => array( array( 'team-members', 'meet-the-team' ), '/team-members/' ),
 		'contact'      => array( array( 'contact-us', 'contact' ), '/contact-us/' ),
 		'directions'   => array( array( 'directions' ), '/directions/' ),
+		'privacy'      => array( array( 'privacy-policy', 'privacy' ), '/privacy-policy/' ),
+		// The page is titled "Sales Agreement" in the admin but publishes as Terms and Conditions.
+		'terms'        => array( array( 'terms-conditions', 'terms-and-conditions', 'terms-of-service' ), '/terms-conditions/' ),
 	);
 
 	if ( ! isset( $map[ $key ] ) ) {
