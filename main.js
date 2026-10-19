@@ -389,10 +389,10 @@ function easylotBoot() {
 		var depositOut = $('#calc-deposit', root);
 		var financedOut = $('#calc-financed', root);
 
-		var RATE = parseFloat(root.getAttribute('data-rate') || '7.5') / 100;
+		var RATE = parseFloat(root.getAttribute('data-rate') || '9') / 100;
 
 		function money(n) {
-			return '$' + Math.round(n).toLocaleString('en-US');
+			return 'CI$' + Math.round(n).toLocaleString('en-US');
 		}
 
 		function run() {

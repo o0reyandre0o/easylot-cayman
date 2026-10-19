@@ -104,12 +104,12 @@ $steps = array(
 		'title' => 'Pay monthly, then take the title',
 		'time'  => 'Your chosen term',
 		'body'  => array(
-			'A fixed amount leaves your account each month for the agreed term. It does not move when rates move, and there is no penalty if you clear the balance early — a lot of buyers settle sooner than planned when a bonus or a property sale comes through.',
+			'A fixed amount leaves your account each month for the agreed term. It does not move when rates move, so you always know what is coming.',
 			'When the balance reaches zero, the transfer is registered with the Cayman Islands Lands and Survey Department and the title is issued in your name. You can search the register yourself at caymanlandinfo.ky at any point.',
 		),
 		'points' => array(
 			'Fixed payment for the life of the agreement',
-			'No early-settlement penalty',
+			'Payments due on the 1st of each month',
 			'Title registered with Lands &amp; Survey in your name',
 		),
 		'icon'  => 'key',
@@ -316,12 +316,12 @@ get_header();
 			<div class="card reveal">
 				<span class="card__icon"><?php easylot_the_icon( 'coins' ); ?></span>
 				<h3>Down payment</h3>
-				<p>From 5% of the lot price. On a $40,000 lot that is $2,000. More down means a lower monthly payment and a shorter term.</p>
+				<p>5% of the lot price. On a CI$53,450 lot in Little Cayman that is CI$2,672.50. More down means a lower monthly payment and a shorter term.</p>
 			</div>
 			<div class="card reveal">
 				<span class="card__icon"><?php easylot_the_icon( 'chart' ); ?></span>
 				<h3>Monthly payment</h3>
-				<p>Fixed for the whole term. Most of our buyers land between roughly $400 and $700 a month depending on the lot, the deposit and the term.</p>
+				<p>Fixed for the whole term at 9%. As an example, a CI$53,450 Little Cayman lot with 5% down is CI$408.57 a month over 30 years.</p>
 			</div>
 			<div class="card reveal">
 				<span class="card__icon"><?php easylot_the_icon( 'bank' ); ?></span>

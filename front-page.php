@@ -180,11 +180,6 @@ get_header();
 							<td><span class="yes"><?php easylot_the_icon( 'check-c' ); ?> Fixed for the whole term</span></td>
 						</tr>
 						<tr>
-							<td>Early settlement penalty</td>
-							<td><span class="no"><?php easylot_the_icon( 'x-c' ); ?> Common</span></td>
-							<td><span class="yes"><?php easylot_the_icon( 'check-c' ); ?> None</span></td>
-						</tr>
-						<tr>
 							<td>Overseas buyers</td>
 							<td>Difficult without local banking history</td>
 							<td><span class="yes"><?php easylot_the_icon( 'check-c' ); ?> Handled remotely, start to finish</span></td>
@@ -246,7 +241,7 @@ get_header();
 			array(
 				'n'     => '05',
 				'title' => 'Pay monthly, then take the title',
-				'text'  => 'A fixed amount leaves your account each month for the agreed term — no rate changes, no penalty if you clear the balance early. When the balance reaches zero the transfer is registered with the Lands and Survey Department and the title is issued in your name.',
+				'text'  => 'A fixed amount leaves your account each month for the agreed term — no rate changes. When the balance reaches zero the transfer is registered with the Lands and Survey Department and the title is issued in your name.',
 				'meta'  => 'Fixed payments · registered title',
 				'icon'  => 'key',
 			),
@@ -323,23 +318,23 @@ get_header();
 			</p>
 		</div>
 
-		<div class="calc reveal" id="calc" data-rate="7.5">
+		<div class="calc reveal" id="calc" data-rate="9">
 			<div class="calc__inputs">
 				<div class="field">
 					<div class="field__top">
 						<label class="field__label" for="calc-price">Lot price</label>
-						<span class="field__val" id="calc-price-val">$60,000</span>
+						<span class="field__val" id="calc-price-val">CI$53,450</span>
 					</div>
-					<input type="range" id="calc-price" min="25000" max="250000" step="1000" value="60000">
-					<div class="field__scale"><span>$25,000</span><span>$250,000</span></div>
+					<input type="range" id="calc-price" min="50000" max="400000" step="50" value="53450">
+					<div class="field__scale"><span>CI$50,000</span><span>CI$400,000</span></div>
 				</div>
 
 				<div class="field">
 					<div class="field__top">
 						<label class="field__label" for="calc-down">Down payment</label>
-						<span class="field__val" id="calc-down-val">10% · $6,000</span>
+						<span class="field__val" id="calc-down-val">5% · CI$2,673</span>
 					</div>
-					<input type="range" id="calc-down" min="5" max="50" step="1" value="10">
+					<input type="range" id="calc-down" min="5" max="50" step="1" value="5">
 					<div class="field__scale"><span>5%</span><span>50%</span></div>
 				</div>
 
@@ -348,10 +343,9 @@ get_header();
 						<label class="field__label" for="calc-term">Term</label>
 						<span class="field__val" id="calc-term-val">15 years</span>
 					</div>
-					<?php /* Terms run 15 to 30 years. step="5" so the slider can only
-					         land on a term we actually write — nobody should be quoted
-					         a 17-year plan. */ ?>
-					<input type="range" id="calc-term" min="15" max="30" step="5" value="15">
+					<?php /* Easy Lot writes 15- and 30-year terms only, so step="15"
+					         keeps the slider on those two values. */ ?>
+					<input type="range" id="calc-term" min="15" max="30" step="15" value="30">
 					<div class="field__scale"><span>15 years</span><span>30 years</span></div>
 				</div>
 			</div>
@@ -370,7 +364,7 @@ get_header();
 				</a>
 
 				<p class="calc__note">
-					Estimate only, based on a 7.5% fixed annual rate for illustration. Your actual
+					Estimate only, based on our 9% fixed annual rate. Your actual
 					rate, term and payment are set in your agreement and confirmed at pre-approval.
 					Stamp duty and legal fees are not included.
 				</p>

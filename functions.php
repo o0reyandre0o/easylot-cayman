@@ -223,7 +223,7 @@ function easylot_developments() {
 			'flag'    => 'Now selling',
 			'blurb'   => 'Quiet, low-density lots on the least-developed of the three islands. The buy for people who want space, water nearby and almost no neighbours.',
 			'facts'   => array( 'Little Cayman', 'Residential lots', 'Owner financed' ),
-			'from'    => '$39,900',
+			'from'    => 'CI$53,450',
 			'video'   => '8.-About-Elena-Estates-1.mp4',
 		),
 		array(
@@ -233,9 +233,9 @@ function easylot_developments() {
 			'image'   => 'https://easylot.ky/wp-content/uploads/2023/08/High-Rock-Estates.jpg',
 			'flag'    => 'Investment land',
 			'flag_alt' => true,
-			'blurb'   => 'Grand Cayman land at the price point most people assume no longer exists here. Roads in, power along the boundary, and the East End growing towards it.',
+			'blurb'   => 'Grand Cayman land on High Rock Drive, with the East End growing towards it. Lots from about 10,000 sq ft, approved for duplexes, and no filling needed.',
 			'facts'   => array( 'Grand Cayman', 'Road access', 'Owner financed' ),
-			'from'    => '$44,900',
+			'from'    => 'CI$110,000',
 			'video'   => '9.-About-High-Rock-Estates-1.mp4',
 		),
 		array(
@@ -246,7 +246,7 @@ function easylot_developments() {
 			'flag'    => 'Premium',
 			'blurb'   => 'Near-shore lots minutes from Rum Point and Starfish Point — the north side address people already drive across the island to visit at the weekend.',
 			'facts'   => array( 'Grand Cayman', 'Near shore', 'Owner financed' ),
-			'from'    => '$59,900',
+			'from'    => 'CI$110,000',
 			'video'   => '10.-About-Northshore-Estates-1.mp4',
 		),
 		/*
@@ -586,11 +586,11 @@ function easylot_faqs() {
 		),
 		array(
 			'q' => 'How much is the down payment?',
-			'a' => 'Down payments start at 5% of the lot price. Putting more down lowers your monthly payment and shortens the term, but 5% is genuinely the floor — on a $40,000 lot that is $2,000 to get started.',
+			'a' => 'Down payments start at 5% of the lot price. Putting more down lowers your monthly payment and shortens the term, but 5% is genuinely the floor — on a CI$53,450 lot in Little Cayman that is CI$2,672.50 to get started.',
 		),
 		array(
 			'q' => 'What will my monthly payment be?',
-			'a' => 'Most of our buyers land between roughly $400 and $700 a month, depending on the lot, the deposit and the term. The payment is fixed for the life of the agreement, so it does not move if rates move. Use the calculator on this page for a figure on a specific price.',
+			'a' => 'It depends on the lot, the deposit and the term. As an example, a CI$53,450 lot in Little Cayman with 5% down is CI$408.57 a month over 30 years at our fixed 9% rate. The payment is fixed for the life of the agreement, so it does not move if rates move. Use the calculator on this page for a figure on a specific price.',
 		),
 		array(
 			'q' => 'What documents do I need to apply?',
@@ -605,16 +605,12 @@ function easylot_faqs() {
 			'a' => 'Yes. The Cayman Islands place no restriction on foreign ownership of land, there is no annual property tax, and there are no capital gains taxes. Overseas buyers complete the whole process remotely — we handle documents by email and video call.',
 		),
 		array(
-			'q' => 'Is there a penalty if I pay the balance off early?',
-			'a' => 'No. You can settle the remaining balance at any point without an early-settlement penalty, and many buyers do exactly that once a bonus or a property sale comes through.',
-		),
-		array(
 			'q' => 'What happens at closing, and who holds the title?',
 			'a' => 'Once the balance is paid, the transfer is registered with the Cayman Islands Lands and Survey Department and the title is issued in your name. Everything is recorded on the government land register, which you can search yourself at caymanlandinfo.ky.',
 		),
 		array(
 			'q' => 'Can I build on the lot while I am still paying?',
-			'a' => 'Construction normally begins once the title is in your name. In the meantime you can survey the lot, get plans drawn and take them through planning, so you are ready to break ground the day the transfer completes.',
+			'a' => 'You can build once Planning approval is in place, and there is no deadline to start. Containers are allowed only during authorised construction, and unauthorised temporary structures are not allowed.',
 		),
 		array(
 			'q' => 'What are the closing costs on Cayman land?',
@@ -630,7 +626,7 @@ function easylot_faqs() {
 		),
 		array(
 			'q' => 'How much does it cost to buy land in the Cayman Islands?',
-			'a' => 'Our lots start around $39,900, and the entry cost is the down payment rather than the full price — from 5%, so roughly $2,000 on a $40,000 lot. On top of the purchase price you should budget for government stamp duty on the transfer and your own legal fees if you use an attorney. After that there is nothing recurring: the Cayman Islands have no annual property tax.',
+			'a' => 'Our lots start from CI$53,450 in Little Cayman and CI$110,000 in Grand Cayman, and the entry cost is the down payment rather than the full price — 5%, so CI$2,672.50 on the Little Cayman lot. On top of the purchase price you should budget for government stamp duty on the transfer and your own legal fees if you use an attorney. After that there is nothing recurring: the Cayman Islands have no annual property tax.',
 		),
 	);
 }
@@ -1469,7 +1465,7 @@ function easylot_current_development() {
 function easylot_elementor_page_seo() {
 	$developments = array(
 		'title'       => easylot_title_with_brand( 'Cayman Islands Land for Sale: All Developments' ),
-		'description' => 'Owner-financed land in Grand Cayman and Little Cayman: Elena Estates, High Rock, Northshore and Ocean Breeze. Lot maps, prices from $39,900 and 5% down.',
+		'description' => 'Owner-financed land in Grand Cayman and Little Cayman: Elena Estates, High Rock, Northshore and Ocean Breeze. Lot maps, prices from CI$53,450 and 5% down.',
 	);
 	return array(
 		'all-our-developments'   => $developments,

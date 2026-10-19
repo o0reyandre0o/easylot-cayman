@@ -158,7 +158,7 @@ get_header();
 			<div class="card reveal">
 				<span class="card__icon"><?php easylot_the_icon( 'shield' ); ?></span>
 				<h3>Fixed, and written down</h3>
-				<p>The payment does not move with rates, there is no penalty for settling early, and every figure is in the agreement before you sign it.</p>
+				<p>The payment does not move with rates, and every figure is in the agreement before you sign it.</p>
 			</div>
 		</div>
 	</div>

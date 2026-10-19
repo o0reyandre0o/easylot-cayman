@@ -13,7 +13,7 @@ $devs = easylot_developments();
 $c    = easylot_contact();
 
 $GLOBALS['easylot_seo_title']       = 'Cayman Islands Land for Sale: All Developments | Easy Lot';
-$GLOBALS['easylot_seo_description'] = 'Owner-financed land in Grand Cayman and Little Cayman: Elena Estates, High Rock, Northshore and Ocean Breeze. Lot maps, prices from $39,900 and 5% down.';
+$GLOBALS['easylot_seo_description'] = 'Owner-financed land in Grand Cayman and Little Cayman: Elena Estates, High Rock, Northshore and Ocean Breeze. Lot maps, prices from CI$53,450 and 5% down.';
 
 $trail = array(
 	'Home'          => home_url( '/' ),

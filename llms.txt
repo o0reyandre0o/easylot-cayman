@@ -7,9 +7,10 @@ Easy Lot Cayman is a land seller and direct lender based at 207 Sparky Dr. Suite
 ## What "Direct Owner Financing" means here
 
 - Easy Lot holds the title to the land and finances the purchase directly to the buyer. There is no third-party lender.
-- Down payment: from 5% of the lot price (about $2,000 on a $40,000 lot).
-- Monthly payment: fixed for the whole term. Most buyers pay roughly $400–$700 per month depending on lot, deposit and term.
-- No early-settlement penalty.
+- All prices are in Cayman Islands dollars (CI$ / KYD).
+- Down payment: 5% of the lot price (CI$2,672.50 on a CI$53,450 lot in Little Cayman).
+- Interest: 9% fixed, with terms of 15 or 30 years. Payments are due on the 1st of each month.
+- Example: a CI$53,450 Little Cayman lot with 5% down is CI$408.57 per month over 30 years.
 - Title is registered with the Cayman Islands Lands and Survey Department in the buyer's name once the balance is cleared.
 
 ## The application
