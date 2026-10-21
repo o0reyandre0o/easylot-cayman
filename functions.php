@@ -233,7 +233,7 @@ function easylot_developments() {
 			'image'   => 'https://easylot.ky/wp-content/uploads/2023/08/High-Rock-Estates.jpg',
 			'flag'    => 'Investment land',
 			'flag_alt' => true,
-			'blurb'   => 'Grand Cayman land on High Rock Drive, with the East End growing towards it. Lots from about 10,000 sq ft, approved for duplexes, and no filling needed.',
+			'blurb'   => 'Grand Cayman land on High Rock Drive, with the East End growing towards it. Lots from about 10,000 sq ft, with owner financing and no bank involved.',
 			'facts'   => array( 'Grand Cayman', 'Road access', 'Owner financed' ),
 			'from'    => 'CI$110,000',
 			'video'   => '9.-About-High-Rock-Estates-1.mp4',
